@@ -1,7 +1,9 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-abstract class AbstractList
+class Message
+class Key
+
 abstract AbstractCollection
 interface List
 interface Collection
@@ -11,11 +13,18 @@ Collection <|-- AbstractCollection
 
 Collection <|- List
 AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
+Message --> Key
 
-class ArrayList {
-Object[] elementData
-size()
+class Message {
+int id
+String body
+int sentBy
+Key requiredKey
+}
+
+class Key{
+String name
+String value
 }
 
 enum TimeUnit {
