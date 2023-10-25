@@ -1,25 +1,68 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class Message
-class Key
+class User
+class Conversation
 
-abstract AbstractCollection
-interface List
-interface Collection
+class StartConversationDataAccessObject
 
-List <|-- AbstractList
-Collection <|-- AbstractCollection
 
-Collection <|- List
-AbstractCollection <|- AbstractList
-Message --> Key
+interface StartConversationDataAccessInterface
+interface StartConversationInputBoundary
+interface StartConversationOuputBoundary
+class StartConversationOutputData
+class StartConversationInputData
+class StartConversationInteractor
 
-class Message {
+class StartConversationController
+class StartConversationPresenter
+class StartConversationViewModel
+class StartConversationView
+
+
+
+StartConversationInteractor -|> StartConversationInputBoundary
+StartConversationPresenter -|> StartConversationOuputBoundary
+StartConversationDataAccessObject -|> StartConversationDataAccessInterface
+
+StartConversationInteractor --> StartConversationOuputBoundary
+StartConversationInteractor --> StartConversationInputData
+StartConversationInteractor --> StartConversationOutputData
+StartConversationInteractor --> StartConversationDataAccessInterface
+
+StartConversationController --> StartConversationInputData
+StartConversationController --> StartConversationInputBoundary
+StartConversationPresenter --> StartConversationOutputData
+StartConversationPresenter --> StartConversationViewModel
+
+StartConversationView --> StartConversationViewModel
+StartConversationView --> StartConversationController
+
+StartConversationView --> StartconversationViewModel
+StartConversationPresenter --> StartConversationViewModel
+
+StartConversationInteractor --> User
+StartConversationDataAccessInterface --> User
+
+User --> Conversation
+
+Conversation --> Key
+Conversation --> Message
+
+
+
+class User {
 int id
-String body
-int sentBy
+String name
+String email
+ArrayList<int> conversations
+}
+
+class Conversation{
+int id
+String name
 Key requiredKey
+ArrayList<Message> messages
 }
 
 class Key{
@@ -27,10 +70,11 @@ String name
 String value
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+class Message{
+int id
+String body
 }
+
+
 
 @enduml

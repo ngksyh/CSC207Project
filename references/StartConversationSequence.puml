@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+Actor -> SCInteractor: 1 execute
+
+SCInteractor -> SCDataAccessObject: 1.1 existsByName
+SCDataAccessObject -> SCInputData : 1.1.1 getSendto
+SCDataAccessObject <-- SCInputData
+SCDataAccessObject -> User: 1.1.2 getName
+SCDataAccessObject <-- User
+SCInteractor <-- SCDataAccessObject
+
+SCInteractor -> SCDataAccessObject: 1.2 sendKey
+SCDataAccessObject -> User: 1.2.1 getEmail
+SCDataAccessObject <-- User
+SCInteractor <-- SCDataAccessObject
+
+SCInteractor -> SCDataAccessObject: 1.3 setConversationState
+SCDataAccessObject -> SCInputData : 1.3.1 getSendBy
+SCDataAccessObject <-- SCInputData
+SCDataAccessObject -> SCInputData : 1.3.2 getSendTo
+SCDataAccessObject <-- SCInputData
+SCDataAccessObject -> User: 1.3.2 setConversation
+SCDataAccessObject <-- User
+SCInteractor <-- SCDataAccessObject
+
+SCInteractor -> SCOutputData: 1.4 <<create>>
+SCInteractor <-- SCOutputData
+
+SCInteractor -> SCPresenter: 1.5: prepareSuccessView
+Actor <-- SCPresenter
+
+@enduml

@@ -19,25 +19,26 @@ class StartConversationInteractor
 StartConversationInteractor -|> StartConversationInputBoundary
 StartConversationDataAccessObject -|> StartConversationDataAccessInterface
 
-StartConversationInteractor --> StartConversationOutputBoundary
+StartConversationInteractor o--> StartConversationOutputBoundary
 StartConversationInteractor --> StartConversationInputData
 StartConversationInteractor --> StartConversationOutputData
-StartConversationInteractor --> StartConversationDataAccessInterface
+StartConversationInteractor o--> StartConversationDataAccessInterface
 
 
-StartConversationInteractor --> User
-StartConversationDataAccessInterface --> User
+StartConversationDataAccessObject o--> User
 
 
 Interface StartConversationDataAccessInterface{
 boolean existsByName(String name)
-String getEmail()
+void sendKey()
 void setConversationState()
 }
 
 class StartConversationDataAccessObject{
+HushMap<String, User> userlist
+---
 boolean existsByName(String name)
-String getEmail()
+void sendKey()
 void setConversationState()
 }
 
@@ -46,6 +47,9 @@ void execute(StartConversationInputData sti)
 }
 
 class StartConversationInteractor{
+SCOutputBoundary scPresenter
+SCDataAccessInterface scDAO
+---
 void execute(StartConversationInputData sti)
 }
 
@@ -55,30 +59,34 @@ void prepareFailView(String error)
 }
 
 class StartConversationInputData{
--String conversationWith
+-String startBy
+-String sendTo
 ---
-String getConversationWith()
+String getStartBy()
+String getSendTo()
 }
 
 class StartConversationOutputData{
--String conversationWith
+-String message
 -String Key
 ---
-String getConversationWith()
+String getMessage()
 String getKey()
 }
 
 
+User o-- User
 
 class User {
 String name
 String email
 String password
-HushMap<User, String> conversations
+HushMap<User, boolean> conversations
 ---
 String getName()
 String getEmail()
 String getPassword()
+void setConversation()
 
 }
 
