@@ -12,13 +12,13 @@ public class BasicChannel implements Channel{
     private final HashMap<Integer, Key> clearances;
     private final ArrayList<Integer> moderators;
 
-    public BasicChannel(int id, String name){
+    public BasicChannel(int id, String name, ArrayList<Integer> members, ArrayList<Integer> moderators){
         this.id = id;
         this.name = name;
-        this.members = new ArrayList<Integer>();
+        this.members = members;
         this.messages = new ArrayList<Message>();
         this.clearances = new HashMap<Integer, Key>();
-        this.moderators = new ArrayList<Integer>();
+        this.moderators = moderators;
     }
 
     @Override
