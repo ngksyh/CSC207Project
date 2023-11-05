@@ -7,17 +7,17 @@ public class BasicChannel implements Channel{
 
     private final int id;
     private String name;
-    private final ArrayList<Integer> members;
     private final ArrayList<Message> messages;
     private final HashMap<Integer, Key> clearances;
+    private final ArrayList<Integer> members;
     private final ArrayList<Integer> moderators;
 
     public BasicChannel(int id, String name, ArrayList<Integer> members, ArrayList<Integer> moderators){
         this.id = id;
         this.name = name;
-        this.members = members;
         this.messages = new ArrayList<Message>();
         this.clearances = new HashMap<Integer, Key>();
+        this.members = members;
         this.moderators = moderators;
     }
 
@@ -36,10 +36,20 @@ public class BasicChannel implements Channel{
     public void addMessage(Message message) {this.messages.add(message);}
 
     @Override
+    public void addMessage(ArrayList<Message> messages) {this.messages.addAll(messages);}
+
+    @Override
     public ArrayList<Message> getMessages(){return this.messages;}
 
     @Override
     public void addClearance(Key key) {this.clearances.put(key.getId(), key);}
+
+    @Override
+    public void addClearance(ArrayList<Key> keys) {
+        for(Key k: keys){
+            this.clearances.put(k.getId(), k);
+        }
+    }
 
     @Override
     public HashMap<Integer, Key> getClearances() {return clearances;}

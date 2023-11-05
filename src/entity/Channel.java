@@ -15,9 +15,13 @@ public interface Channel {
 
     void addMessage(Message message);
 
+    void addMessage(ArrayList<Message> messages);
+
     ArrayList<Message> getMessages();
 
     void addClearance(Key key);
+
+    void addClearance(ArrayList<Key> keys);
 
     HashMap<Integer, Key> getClearances();
 

@@ -6,9 +6,11 @@ public interface Message {
 
     int getId();
 
+    int getSentBy();
+
     LocalDateTime getSentTime();
 
-    Key getClearance();
+    int getClearance();
 
     String getText();
 
