@@ -9,9 +9,9 @@ public interface Channel {
 
     String getName();
 
-    void addMember(User user);
+    void addMember(Integer user);
 
-    HashMap<Integer, User> getMembers();
+    ArrayList<Integer> getMembers();
 
     void addMessage(Message message);
 
@@ -21,9 +21,9 @@ public interface Channel {
 
     HashMap<Integer, Key> getClearances();
 
-    void addModerator(User user);
+    void addModerator(Integer user);
 
-    HashMap<Integer, User> getModerators();
+    ArrayList<Integer> getModerators();
 
 
 

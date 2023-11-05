@@ -2,7 +2,6 @@ package data_access;
 
 import entity.User;
 import entity.UserFactory;
-import use_case.clear_users.ClearUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
@@ -13,25 +12,27 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class FileUserDataAccessObject{
+public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface{
 
     private final File csvFile;
 
     private final Map<String, Integer> headers = new LinkedHashMap<>();
 
-    private final Map<Integer, User> accounts = new HashMap<>();
+    private final Map<String, User> accounts = new HashMap<>();
 
     private UserFactory userFactory;
 
+    private FileChannelDataAccessObject channelDataAccessObject;
+
     public FileUserDataAccessObject(String csvPath, UserFactory userFactory) throws IOException {
         this.userFactory = userFactory;
+        this.channelDataAccessObject = null;
 
         csvFile = new File(csvPath);
-        headers.put("id", 0);
-        headers.put("username", 1);
-        headers.put("password", 2);
-        headers.put("creation_time", 3);
-        headers.put("channels", 4);
+        headers.put("username", 0);
+        headers.put("password", 1);
+        headers.put("creation_time", 2);
+        headers.put("channels", 3);
 
         if (csvFile.length() == 0) {
             save();
@@ -50,12 +51,21 @@ public class FileUserDataAccessObject{
                     String password = String.valueOf(col[headers.get("password")]);
                     String creationTimeText = String.valueOf(col[headers.get("creation_time")]);
                     LocalDateTime ldt = LocalDateTime.parse(creationTimeText);
-                    User user = userFactory.create(username, password, ldt);
+                    String channelText = String.valueOf(col[headers.get("channels")]);
+
+                    String[] chans = channelText.split(" ");
+                    ArrayList<Integer> chs = new ArrayList<Integer>();
+                    for (String s: chans){chs.add(Integer.parseInt(s));}
+
+                    User user = userFactory.create(username, password, ldt, chs);
+
                     accounts.put(username, user);
                 }
             }
         }
     }
+
+    public void addChannelObject(FileChannelDataAccessObject fileChannelDataAccessObject){this.channelDataAccessObject = fileChannelDataAccessObject;}
 
     @Override
     public void save(User user) {
@@ -68,6 +78,14 @@ public class FileUserDataAccessObject{
         return accounts.get(username);
     }
 
+    private String channelFormatter(ArrayList<Integer> channels){
+        String str = new String();
+        for (Integer i: channels){
+            str.concat(i.toString()).concat(" ");
+        }
+        return str;
+    }
+
     private void save() {
         BufferedWriter writer;
         try {
@@ -76,8 +94,8 @@ public class FileUserDataAccessObject{
             writer.newLine();
 
             for (User user : accounts.values()) {
-                String line = String.format("%s,%s,%s",
-                        user.getName(), user.getPassword(), user.getCreationTime());
+                String line = String.format("%s,%s,%s,%s",
+                        user.getName(), user.getPassword(), user.getCreationTime(), channelFormatter(user.getChannel()));
                 writer.write(line);
                 writer.newLine();
             }
@@ -89,28 +107,6 @@ public class FileUserDataAccessObject{
         }
     }
 
-    public ArrayList<String> clear(){
-        BufferedWriter writer;
-        try {
-            writer = new BufferedWriter(new FileWriter(csvFile));
-            writer.write(String.join(",", headers.keySet()));
-            writer.newLine();
-
-            writer.close();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        ArrayList<String> re = new ArrayList<String>();
-        for (String s: accounts.keySet()){
-            re.add(s);
-        }
-
-        accounts.clear();
-
-        return re;
-    }
 
 
 

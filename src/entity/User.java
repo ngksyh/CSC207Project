@@ -1,12 +1,11 @@
 package entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface User {
 
-
-    int getId();
 
     String getName();
 
@@ -14,9 +13,9 @@ public interface User {
 
     LocalDateTime getCreationTime();
 
-    void addChannel(Channel channel);
+    void addChannel(Integer channel);
 
-    HashMap<Integer, Channel> getChannel();
+    ArrayList<Integer> getChannel();
 
 
 }

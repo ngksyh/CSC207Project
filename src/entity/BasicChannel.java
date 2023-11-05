@@ -7,18 +7,18 @@ public class BasicChannel implements Channel{
 
     private final int id;
     private String name;
-    private HashMap<Integer, User> members;
-    private ArrayList<Message> messages;
-    private HashMap<Integer, Key> clearances;
-    private HashMap<Integer, User> moderators;
+    private final ArrayList<Integer> members;
+    private final ArrayList<Message> messages;
+    private final HashMap<Integer, Key> clearances;
+    private final ArrayList<Integer> moderators;
 
     public BasicChannel(int id, String name){
         this.id = id;
         this.name = name;
-        this.members = new HashMap<Integer, User>();
-        this.messages = new ArrayList<String>();
+        this.members = new ArrayList<Integer>();
+        this.messages = new ArrayList<Message>();
         this.clearances = new HashMap<Integer, Key>();
-        this.moderators = new HashMap<Integer, User>();
+        this.moderators = new ArrayList<Integer>();
     }
 
     @Override
@@ -27,10 +27,10 @@ public class BasicChannel implements Channel{
     public String getName() {return name;}
 
     @Override
-    public void addMember(User user) {this.members.put(user.getId(),user);}
+    public void addMember(Integer user) {this.members.add(user);}
 
     @Override
-    public HashMap<Integer, User> getMembers(){return this.members;}
+    public ArrayList<Integer> getMembers(){return this.members;}
 
     @Override
     public void addMessage(Message message) {this.messages.add(message);}
@@ -45,8 +45,8 @@ public class BasicChannel implements Channel{
     public HashMap<Integer, Key> getClearances() {return clearances;}
 
     @Override
-    public void addModerator(User user) {this.moderators.put(user.getId(), user);}
+    public void addModerator(Integer user) {this.moderators.add(user);}
 
     @Override
-    public HashMap<Integer, User> getModerators() {return moderators;}
+    public ArrayList<Integer> getModerators() {return moderators;}
 }

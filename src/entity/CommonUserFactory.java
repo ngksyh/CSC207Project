@@ -1,6 +1,7 @@
 package entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class CommonUserFactory implements UserFactory {
     /**
@@ -11,7 +12,7 @@ public class CommonUserFactory implements UserFactory {
      */
 
     @Override
-    public User create(String name, String password, LocalDateTime ltd) {
-        return new CommonUser(name, password, ltd);
+    public User create(int id, String name, String password, LocalDateTime ltd, ArrayList<Integer> chs) {
+        return new CommonUser(id, name, password, ltd, chs);
     }
 }

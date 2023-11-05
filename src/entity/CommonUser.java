@@ -1,33 +1,27 @@
 package entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.spi.LocaleNameProvider;
 
 public class CommonUser implements User{
 
-    private final int id;
-    private String name;
+    private final String name;
     private String password;
     private final LocalDateTime creationTime;
-    private HashMap<Integer,Channel> channels;
+    private final ArrayList<Integer> channels;
 
     /**
      * Requires: password is valid.
      * @param name
      * @param password
      */
-    CommonUser(int id, String name, String password, LocalDateTime creationTime) {
-        this.id = id;
+    CommonUser(String name, String password, LocalDateTime creationTime, ArrayList<Integer> channels) {
         this.name = name;
         this.password = password;
         this.creationTime = creationTime;
-        this.channels = new HashMap<Integer, Channel>();
-    }
-
-    @Override
-    public int getId() {
-        return id;
+        this.channels = channels;
     }
 
     @Override
@@ -46,10 +40,10 @@ public class CommonUser implements User{
     }
 
     @Override
-    public void addChannel(Channel channel) {
-        this.channels.put(channel.getId(),channel);
+    public void addChannel(Integer channel) {
+        this.channels.add(channel);
     }
 
     @Override
-    public HashMap<Integer, Channel> getChannel(){return channels;}
+    public ArrayList<Integer> getChannel(){return channels;}
 }
