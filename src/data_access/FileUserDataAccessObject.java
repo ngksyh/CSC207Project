@@ -50,7 +50,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     LocalDateTime ldt = LocalDateTime.parse(creationTimeText);
                     String channelText = String.valueOf(col[headers.get("channels")]);
 
-                    String[] chans = channelText.split(" ");
+                    String[] chans = channelText.split("_");
                     ArrayList<Integer> chs = new ArrayList<Integer>();
                     for (String s: chans){chs.add(Integer.parseInt(s));}
 
@@ -75,14 +75,11 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         return accounts.get(username);
     }
 
+
     private String integerCollectionToString(Collection<Integer> coll){
-        String str = "";
-        if (!coll.isEmpty()){
-            Iterator itr = coll.iterator();
-            str.concat(itr.next().toString());
-            while (itr.hasNext()){
-                str.concat(" ").concat(itr.next().toString());
-            }
+        String str = "_";
+        for (Integer i: coll){
+            str.concat(i.toString()).concat("_");
         }
         return str;
 

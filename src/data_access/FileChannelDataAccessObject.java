@@ -53,7 +53,7 @@ public class FileChannelDataAccessObject {
             try (BufferedReader reader = new BufferedReader(new FileReader(naviFile))) {
                 String channelText = reader.readLine();
                 if (!channelText.isEmpty()) {
-                    chans = channelText.split(" ");
+                    chans = channelText.split("_");
                 }
 
             }
@@ -145,7 +145,7 @@ public class FileChannelDataAccessObject {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String me = reader.readLine();
             ArrayList<Integer> mem = new ArrayList<>();
-            String[] mems = me.split(" ");
+            String[] mems = me.split("_");
             for (String s: mems){mem.add(Integer.parseInt(s));}
 
             return mem;
@@ -155,13 +155,9 @@ public class FileChannelDataAccessObject {
     public void addUserObject(FileUserDataAccessObject fileUserDataAccessObject){this.userDataAccessObject = fileUserDataAccessObject;}
 
     private String integerCollectionToString(Collection<Integer> coll){
-        String str = "";
-        if (!coll.isEmpty()){
-            Iterator itr = coll.iterator();
-            str.concat(itr.next().toString());
-            while (itr.hasNext()){
-                str.concat(" ").concat(itr.next().toString());
-            }
+        String str = "_";
+        for (Integer i: coll){
+            str.concat(i.toString()).concat("_");
         }
         return str;
 

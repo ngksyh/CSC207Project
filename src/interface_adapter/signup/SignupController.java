@@ -16,4 +16,9 @@ public class SignupController {
 
         userSignupUseCaseInteractor.execute(signupInputData);
     }
+
+    public void changeToLogIn(){
+        userSignupUseCaseInteractor.changeToLogIn();
+    }
+
 }

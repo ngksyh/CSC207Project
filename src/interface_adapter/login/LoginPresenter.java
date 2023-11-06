@@ -48,7 +48,10 @@ public class LoginPresenter implements LoginOutputBoundary {
 
     @Override
     public void prepareSignupView() {
-        this.viewManagerModel.setActiveView(signupViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
+        signupViewModel.setState(new SignupState());
+        signupViewModel.firePropertyChanged();
+
+        viewManagerModel.setActiveView(signupViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }
