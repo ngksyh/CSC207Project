@@ -49,48 +49,51 @@ public class FileChannelDataAccessObject {
         if (naviFile.length() == 0) {
             saveNavi();
         } else {
-            String[] chans;
+            String[] chans = null;
             try (BufferedReader reader = new BufferedReader(new FileReader(naviFile))) {
                 String channelText = reader.readLine();
-                chans = channelText.split(" ");
+                if (!channelText.isEmpty()) {
+                    chans = channelText.split(" ");
+                }
 
             }
 
-            for (String s: chans){
-                String sn = String.valueOf(s);
-                String ss = commonPath.concat("/").concat(sn);
-                File[] f = new File[5];
-                File channel = new File(ss.concat("/channel.csv"));
-                f[0] = channel;
-                File clearances = new File(ss.concat("/clearances.csv"));
-                f[1] = clearances;
-                File messages = new File(ss.concat("/messages.csv"));
-                f[2] = messages;
-                File members = new File(ss.concat("/members.csv"));
-                f[3] = members;
-                File moderators = new File(ss.concat("/moderators.csv"));
-                f[4] = moderators;
-                csvFiles.put(Integer.parseInt(s),f);
+            if (chans != null){
+                for (String s: chans) {
+                    String sn = String.valueOf(s);
+                    String ss = commonPath.concat("/").concat(sn);
+                    File[] f = new File[5];
+                    File channel = new File(ss.concat("/channel.csv"));
+                    f[0] = channel;
+                    File clearances = new File(ss.concat("/clearances.csv"));
+                    f[1] = clearances;
+                    File messages = new File(ss.concat("/messages.csv"));
+                    f[2] = messages;
+                    File members = new File(ss.concat("/members.csv"));
+                    f[3] = members;
+                    File moderators = new File(ss.concat("/moderators.csv"));
+                    f[4] = moderators;
+                    csvFiles.put(Integer.parseInt(s), f);
 
-                try (BufferedReader reader = new BufferedReader(new FileReader(channel))) {
-                    String header = reader.readLine();
-                    assert header.equals("id,name");
-                    String[] col = reader.readLine().split(",");
-                    int id = Integer.parseInt(String.valueOf(col[headers.get(0).get("id")]));
-                    String name = String.valueOf(col[headers.get(0).get("name")]);
+                    try (BufferedReader reader = new BufferedReader(new FileReader(channel))) {
+                        String header = reader.readLine();
+                        assert header.equals("id,name");
+                        String[] col = reader.readLine().split(",");
+                        int id = Integer.parseInt(String.valueOf(col[headers.get(0).get("id")]));
+                        String name = String.valueOf(col[headers.get(0).get("name")]);
 
-                    ArrayList<Integer> mem = readMembers(members);
-                    ArrayList<Integer> mod = readMembers(moderators);
+                        ArrayList<Integer> mem = readMembers(members);
+                        ArrayList<Integer> mod = readMembers(moderators);
 
-                    Channel nchannel = channelFactory.create(id, name, mem, mod);
+                        Channel nchannel = channelFactory.create(id, name, mem, mod);
 
-                    nchannel.addClearance(readClearances(clearances));
-                    nchannel.addMessage(readMessages(messages));
+                        nchannel.addClearance(readClearances(clearances));
+                        nchannel.addMessage(readMessages(messages));
 
-                    channels.put(id,nchannel);
+                        channels.put(id, nchannel);
 
+                    }
                 }
-
             }
 
         }
