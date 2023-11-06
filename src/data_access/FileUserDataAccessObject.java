@@ -7,10 +7,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface{
 
@@ -78,12 +75,17 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         return accounts.get(username);
     }
 
-    private String channelFormatter(ArrayList<Integer> channels){
-        String str = new String();
-        for (Integer i: channels){
-            str.concat(i.toString()).concat(" ");
+    private String integerCollectionToString(Collection<Integer> coll){
+        String str = "";
+        if (!coll.isEmpty()){
+            Iterator itr = coll.iterator();
+            str.concat(itr.next().toString());
+            while (itr.hasNext()){
+                str.concat(" ").concat(itr.next().toString());
+            }
         }
         return str;
+
     }
 
     private void save() {
@@ -95,7 +97,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
             for (User user : accounts.values()) {
                 String line = String.format("%s,%s,%s,%s",
-                        user.getName(), user.getPassword(), user.getCreationTime(), channelFormatter(user.getChannel()));
+                        user.getName(), user.getPassword(), user.getCreationTime(), integerCollectionToString(user.getChannel()));
                 writer.write(line);
                 writer.newLine();
             }

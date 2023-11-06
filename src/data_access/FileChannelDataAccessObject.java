@@ -12,11 +12,11 @@ public class FileChannelDataAccessObject {
 
     private final File naviFile;
 
-    private final Map<Integer, Object[]> csvFiles = new HashMap<>();
+    private final Map<Integer, File[]> csvFiles = new LinkedHashMap<>();
 
     private final List<LinkedHashMap<String, Integer>> headers = new ArrayList<LinkedHashMap<String, Integer>>();
 
-    private final Map<Integer, Channel> channels = new HashMap<>();
+    private final Map<Integer, Channel> channels = new LinkedHashMap<>();
 
     private ChannelFactory channelFactory;
 
@@ -58,7 +58,7 @@ public class FileChannelDataAccessObject {
 
             for (String s: chans){
                 String sn = String.valueOf(s);
-                String ss = commonPath.concat(sn);
+                String ss = commonPath.concat("/").concat(sn);
                 File[] f = new File[5];
                 File channel = new File(ss.concat("/channel.csv"));
                 f[0] = channel;
@@ -95,8 +95,6 @@ public class FileChannelDataAccessObject {
 
         }
     }
-
-    //need methods to save these files and add entiities.
 
     private ArrayList<Key> readClearances(File file) throws IOException{
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -153,20 +151,132 @@ public class FileChannelDataAccessObject {
 
     public void addUserObject(FileUserDataAccessObject fileUserDataAccessObject){this.userDataAccessObject = fileUserDataAccessObject;}
 
+    private String integerCollectionToString(Collection<Integer> coll){
+        String str = "";
+        if (!coll.isEmpty()){
+            Iterator itr = coll.iterator();
+            str.concat(itr.next().toString());
+            while (itr.hasNext()){
+                str.concat(" ").concat(itr.next().toString());
+            }
+        }
+        return str;
+
+    }
+
     private void saveNavi() {
         BufferedWriter writer;
         try {
             writer = new BufferedWriter(new FileWriter(naviFile));
-            String str = "";
-            for (Integer s: channels.keySet()){
-                str = str.concat(s.toString()).concat(" ");
-            }
-            writer.write(str);
+            writer.write(integerCollectionToString(channels.keySet()));
+            writer.newLine();
+
             writer.close();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void saveMembers(File file, ArrayList<Integer> members) {
+        BufferedWriter writer;
+        try {
+            writer = new BufferedWriter(new FileWriter(file));
+            writer.write(integerCollectionToString(members));
+            writer.newLine();
+
+            writer.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void saveMessages(File file, ArrayList<Message> messages){
+        BufferedWriter writer;
+        try {
+            writer = new BufferedWriter(new FileWriter(file));
+            for (Message message: messages){
+                String line = String.format("%s,%s,%s,%s,%s",
+                        message.getId(), message.getSentBy(), message.getSentTime(), message.getClearance(), message.getText());
+                writer.write(line);
+                writer.newLine();
+            }
+
+            writer.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void saveClearances(File file, HashMap<Integer, Key> clearances){
+        BufferedWriter writer;
+        try {
+            writer = new BufferedWriter(new FileWriter(file));
+            writer.write(String.join(",", headers.get(1).keySet()));
+            writer.newLine();
+
+            for (Key key: clearances.values()){
+                String line = String.format("%s,%s,%s",
+                        key.getId(), key.getEncrypt(), key.getDecrypt());
+                writer.write(line);
+                writer.newLine();
+            }
+
+            writer.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //given valid id
+    private void saveChannel(int id){
+        File[] files = csvFiles.get(id);
+        Channel chan = channels.get(id);
+        saveClearances(files[1],chan.getClearances());
+        saveMessages(files[2],chan.getMessages());
+        saveMembers(files[3],chan.getMembers());
+        saveMembers(files[4],chan.getModerators());
+    }
+
+    //createNewChannel
+    private void saveChannel(int id, String name){
+        Channel chan = channelFactory.create(id,name,new ArrayList<Integer>(),new ArrayList<Integer>());
+        channels.put(id, chan);
+        saveNavi();
+        String path = commonPath.concat("/").concat(Integer.toString(id));
+
+        File[] f = new File[5];
+        File channel = new File(path.concat("/channel.csv"));
+        f[0] = channel;
+        File clearances = new File(path.concat("/clearances.csv"));
+        f[1] = clearances;
+        File messages = new File(path.concat("/messages.csv"));
+        f[2] = messages;
+        File members = new File(path.concat("/members.csv"));
+        f[3] = members;
+        File moderators = new File(path.concat("/moderators.csv"));
+        f[4] = moderators;
+        csvFiles.put(id, f);
+
+        BufferedWriter writer;
+        try {
+            writer = new BufferedWriter(new FileWriter(f[0]));
+            writer.write(String.join(",", headers.get(0).keySet()));
+            writer.newLine();
+            String line = String.format("%s,%s",
+                    id, name);
+            writer.write(line);
+            writer.newLine();
+            writer.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        saveChannel(id);
     }
 
 

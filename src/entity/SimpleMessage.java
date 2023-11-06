@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 public class SimpleMessage implements Message{
     private final int id;
-    private final LocalDateTime sentTime;
     private final int sentBy;
+    private final LocalDateTime sentTime;
     private final int clearance;
     private final String text;
 
