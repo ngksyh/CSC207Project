@@ -1,11 +1,14 @@
 package entity;
 
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
 public interface Key {
 
     int getId();
 
-    String getEncrypt();
+    PublicKey getEncrypt();
 
-    String getDecrypt();
+    PrivateKey getDecrypt();
 
 }

@@ -1,11 +1,15 @@
 package entity;
+
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
 public class RSAKey implements Key{
 
     private final int id;
-    private final String encryptionKey;
-    private final String decryptionKey;
+    private final PublicKey encryptionKey;
+    private final PrivateKey decryptionKey;
 
-    public RSAKey(int id, String encryptionKey, String decryptionKey){
+    public RSAKey(int id, PublicKey encryptionKey, PrivateKey decryptionKey){
         this.id = id;
         this.encryptionKey = encryptionKey;
         this.decryptionKey = decryptionKey;
@@ -15,9 +19,9 @@ public class RSAKey implements Key{
     public int getId(){return this.id;}
 
     @Override
-    public String getEncrypt(){return this.encryptionKey;}
+    public PublicKey getEncrypt(){return this.encryptionKey;}
 
     @Override
-    public String getDecrypt(){return this.decryptionKey;}
+    public PrivateKey getDecrypt(){return this.decryptionKey;}
 
 }
