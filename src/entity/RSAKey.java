@@ -1,5 +1,4 @@
 package entity;
-
 public class RSAKey implements Key{
 
     private final int id;
