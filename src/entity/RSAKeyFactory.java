@@ -9,24 +9,27 @@ import java.util.Base64;
 public class RSAKeyFactory implements KeyFactory{
 
     @Override
-    public Key create(int id, PublicKey encryptionKey, PrivateKey decryptionKey) {
+    public Key create(int id, String encryptionKey, String decryptionKey) {
         return new RSAKey(id, encryptionKey, decryptionKey);
     }
 
     public Key create(int id) {
+        String[] a = RSACreate();
+        return new RSAKey(id, a[0], a[1]);
+    }
+
+    public static String[] RSACreate() {
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
             keyPairGenerator.initialize(2048);
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
             PrivateKey privateKey = keyPair.getPrivate();
             PublicKey publicKey = keyPair.getPublic();
-
-            return new RSAKey(id, publicKey, privateKey);
+            return new String[]{byteToString(publicKey.getEncoded()), byteToString(privateKey.getEncoded())};
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-
-
     }
-    // public static String byteToString(byte[] bytes) { return Base64.getEncoder().encodeToString(bytes); }
+
+    public static String byteToString(byte[] bytes) { return Base64.getEncoder().encodeToString(bytes); }
 }
