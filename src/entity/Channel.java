@@ -1,17 +1,21 @@
 package entity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface Channel {
 
-    int getId();
 
     String getName();
 
-    void addMember(Integer user);
+    void addMember(User user);
 
-    ArrayList<Integer> getMembers();
+    void addMember(ArrayList<User> users);
+
+    User getMember(String username);
+
+    boolean existsMember(String username);
 
     void addMessage(Message message);
 
@@ -19,15 +23,26 @@ public interface Channel {
 
     ArrayList<Message> getMessages();
 
-    void addClearance(Key key);
+    Message getLastMessage();
 
-    void addClearance(ArrayList<Key> keys);
+    void addClearance(Clearance clr);
 
-    HashMap<Integer, Key> getClearances();
+    void addClearances(ArrayList<Clearance> clrs);
 
-    void addModerator(Integer user);
+    HashMap<String, Clearance> getClearances();
 
-    ArrayList<Integer> getModerators();
+    Clearance getClearance(String clrname);
+
+    boolean existsClearance(String clrname);
+
+    void addSupervisor(User user);
+
+    void addSupervisor(ArrayList<User> users);
+
+    User getSupervisor(String username);
+
+    boolean existsSupervisor(String username);
+
 
 
 

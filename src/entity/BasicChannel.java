@@ -1,36 +1,43 @@
 package entity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BasicChannel implements Channel{
 
-    private final int id;
     private String name;
     private final ArrayList<Message> messages;
-    private final HashMap<Integer, Key> clearances;
-    private final ArrayList<Integer> members;
-    private final ArrayList<Integer> moderators;
+    private final HashMap<String, Clearance> clearances;
+    private final HashMap<String, User> members;
+    private final HashMap<String, User> supervisors;
 
-    public BasicChannel(int id, String name, ArrayList<Integer> members, ArrayList<Integer> moderators){
-        this.id = id;
+    public BasicChannel(String name){
         this.name = name;
         this.messages = new ArrayList<Message>();
-        this.clearances = new HashMap<Integer, Key>();
-        this.members = members;
-        this.moderators = moderators;
+        this.clearances = new HashMap<String, Clearance>();
+        this.members = new HashMap<String, User>();
+        this.supervisors = new HashMap<String, User>();
     }
 
-    @Override
-    public int getId() {return id;}
     @Override
     public String getName() {return name;}
 
     @Override
-    public void addMember(Integer user) {this.members.add(user);}
+    public void addMember(User user) {this.members.put(user.getName(), user);}
 
     @Override
-    public ArrayList<Integer> getMembers(){return this.members;}
+    public void addMember(ArrayList<User> users) {
+        for(User user: users){
+            addMember(user);
+        }
+    }
+
+    @Override
+    public User getMember(String username) {return members.get(username);}
+
+    @Override
+    public boolean existsMember(String username) {return members.containsKey(username);}
 
     @Override
     public void addMessage(Message message) {this.messages.add(message);}
@@ -42,21 +49,42 @@ public class BasicChannel implements Channel{
     public ArrayList<Message> getMessages(){return this.messages;}
 
     @Override
-    public void addClearance(Key key) {this.clearances.put(key.getId(), key);}
+    public Message getLastMessage(){return this.messages.get(messages.size() - 1);}
 
     @Override
-    public void addClearance(ArrayList<Key> keys) {
-        for(Key k: keys){
-            this.clearances.put(k.getId(), k);
+    public void addClearance(Clearance clr) {this.clearances.put(clr.getName(), clr);}
+
+    @Override
+    public void addClearances(ArrayList<Clearance> clrs) {
+        for(Clearance c: clrs){
+            this.clearances.put(c.getName(), clr);
         }
     }
 
     @Override
-    public HashMap<Integer, Key> getClearances() {return clearances;}
+    public HashMap<String, Clearance> getClearances() {return clearances;}
 
     @Override
-    public void addModerator(Integer user) {this.moderators.add(user);}
+    public Clearance getClearance(String clrname){return clearances.get(clrname);}
 
     @Override
-    public ArrayList<Integer> getModerators() {return moderators;}
+    public boolean existsClearance(String clrname) {return clearances.containsKey(clrname);}
+
+    @Override
+    public void addSupervisor(User user) {this.supervisors.put(user.getName(), user);}
+
+    @Override
+    public void addSupervisor(ArrayList<User> users) {
+        for (User user: users){
+            addSupervisor(user);
+        }
+    }
+
+    @Override
+    public User getSupervisor(String username) {
+        return this.supervisors.get(username);
+    }
+
+    @Override
+    public boolean existsSupervisor(String username) {return supervisors.containsKey(username);}
 }
