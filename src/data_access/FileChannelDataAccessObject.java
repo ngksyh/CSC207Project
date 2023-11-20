@@ -8,19 +8,15 @@ import java.util.*;
 
 public class FileChannelDataAccessObject {
 
-    private final String commonPath;
+    private final File csvFile;
 
-    private final File naviFile;
+    private final Map<String, Integer> headers = new LinkedHashMap<>();
 
-    private final Map<Integer, File[]> csvFiles = new LinkedHashMap<>();
-
-    private final List<LinkedHashMap<String, Integer>> headers = new ArrayList<LinkedHashMap<String, Integer>>();
-
-    private final Map<Integer, Channel> channels = new LinkedHashMap<>();
+    private final Channel channel;
 
     private ChannelFactory channelFactory;
 
-    private KeyFactory keyFactory;
+    private ClearanceFactory ClearanceFactory;
 
     private MessageFactory messageFactory;
 
@@ -44,7 +40,7 @@ public class FileChannelDataAccessObject {
         l1.put("decrypt", 1);
         headers.add(l1);
 
-        naviFile = new File(commonPath.concat("/channels.csv"));
+        naviFile = new File(commonPath.concat("/channel.csv"));
 
         if (naviFile.length() == 0) {
             saveNavi();
