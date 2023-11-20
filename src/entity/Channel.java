@@ -19,11 +19,11 @@ public interface Channel {
 
     ArrayList<Message> getMessages();
 
-    void addClearance(Key key);
+    void addClearance(String name, Key key);
 
-    void addClearance(ArrayList<Key> keys);
+    void addClearance(ArrayList<Clearance> clearances);
 
-    HashMap<Integer, Key> getClearances();
+    ArrayList<Clearance> getClearances();
 
     void addModerator(Integer user);
 

@@ -24,14 +24,17 @@ public class FileChannelDataAccessObject {
 
     private MessageFactory messageFactory;
 
+    private ClearanceFactory clearanceFactory;
+
     private FileUserDataAccessObject userDataAccessObject;
 
-    public FileChannelDataAccessObject(String commonPath, ChannelFactory channelFactory, KeyFactory keyFactory, MessageFactory messageFactory) throws IOException {
+    public FileChannelDataAccessObject(String commonPath, ChannelFactory channelFactory, KeyFactory keyFactory, MessageFactory messageFactory, ClearanceFactory clearanceFactory) throws IOException {
         this.commonPath = commonPath;
         this.channelFactory = channelFactory;
         this.keyFactory = keyFactory;
         this.messageFactory = messageFactory;
         this.userDataAccessObject = null;
+        this.clearanceFactory = clearanceFactory;
 
         LinkedHashMap<String, Integer> l0 = new LinkedHashMap<String, Integer>();
         l0.put("id", 0);
@@ -99,21 +102,21 @@ public class FileChannelDataAccessObject {
         }
     }
 
-    private ArrayList<Key> readClearances(File file) throws IOException{
+    private ArrayList<Clearance> readClearances(File file) throws IOException{
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String header = reader.readLine();
 
-            assert header.equals("id,encrypt,decrypt");
+            assert header.equals("name,encrypt,decrypt");
 
-            ArrayList<Key> re = new ArrayList<>();
+            ArrayList<Clearance> re = new ArrayList<>();
             String row;
             while ((row = reader.readLine()) != null) {
                 String[] col = row.split(",");
-                String id = String.valueOf(col[headers.get(1).get("id")]);
+                String name = String.valueOf(col[headers.get(1).get("name")]);
                 String encrypt = String.valueOf(col[headers.get(1).get("encrypt")]);
                 String decrypt = String.valueOf(col[headers.get(1).get("decrypt")]);
 
-                re.add(keyFactory.create(Integer.parseInt(id), encrypt, decrypt));
+                re.add(clearanceFactory.create(name, keyFactory.create(encrypt, decrypt)));
             }
             return re;
         }
@@ -209,16 +212,16 @@ public class FileChannelDataAccessObject {
         }
     }
 
-    private void saveClearances(File file, HashMap<Integer, Key> clearances){
+    private void saveClearances(File file, ArrayList<Clearance> clearances){
         BufferedWriter writer;
         try {
             writer = new BufferedWriter(new FileWriter(file));
             writer.write(String.join(",", headers.get(1).keySet()));
             writer.newLine();
 
-            for (Key key: clearances.values()){
+            for (Clearance c: clearances){
                 String line = String.format("%s,%s,%s",
-                        key.getId(), key.getEncrypt(), key.getDecrypt());
+                        c.getName(), c.getKey().getEncrypt(), c.getKey().getDecrypt());
                 writer.write(line);
                 writer.newLine();
             }
