@@ -9,13 +9,13 @@ import java.util.Base64;
 public class RSAKeyFactory implements KeyFactory{
 
     @Override
-    public Key create(int id, String encryptionKey, String decryptionKey) {
-        return new RSAKey(id, encryptionKey, decryptionKey);
+    public Key create(String encryptionKey, String decryptionKey) {
+        return new RSAKey(encryptionKey, decryptionKey);
     }
 
-    public Key create(int id) {
+    public Key create() {
         String[] a = RSACreate();
-        return new RSAKey(id, a[0], a[1]);
+        return new RSAKey(a[0], a[1]);
     }
 
     public static String[] RSACreate() {
