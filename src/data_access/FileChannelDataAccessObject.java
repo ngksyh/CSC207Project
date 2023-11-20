@@ -95,6 +95,8 @@ public class FileChannelDataAccessObject {
         }
     }
 
+    public Channel get() {return channel;}
+
     private ArrayList<Key> readClearances(File file) throws IOException{
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String header = reader.readLine();
@@ -148,7 +150,7 @@ public class FileChannelDataAccessObject {
         }
     }
 
-    public void addUserObject(FileUserDataAccessObject fileUserDataAccessObject){this.userDataAccessObject = fileUserDataAccessObject;}
+    public void addUserObject(FileClearanceDataAccessObject fileUserDataAccessObject){this.userDataAccessObject = fileUserDataAccessObject;}
 
     private String integerCollectionToString(Collection<Integer> coll){
         String str = "_";
