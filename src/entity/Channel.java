@@ -10,11 +10,15 @@ public interface Channel {
 
     String getName();
 
+    void setName(String name);
+
     void addMember(User user);
 
     void addMember(Collection<User> users);
 
     User getMember(String username);
+
+    HashMap<String, User> getMembers();
 
     boolean existsMember(String username);
 
@@ -43,6 +47,8 @@ public interface Channel {
     void addSupervisor(Collection<User> users);
 
     User getSupervisor(String username);
+
+    HashMap<String, User> getSupervisors();
 
     boolean existsSupervisor(String username);
 

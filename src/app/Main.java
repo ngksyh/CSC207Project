@@ -2,11 +2,9 @@ package app;
 
 import data_access.FileChannelDataAccessObject;
 import data_access.FileClearanceDataAccessObject;
+import data_access.FileMessageDataAccessObject;
 import data_access.FileUserDataAccessObject;
-import entity.BasicChannelFactory;
-import entity.CommonUserFactory;
-import entity.RSAKeyFactory;
-import entity.SimpleMessageFactory;
+import entity.*;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LoginViewModel;
@@ -52,9 +50,16 @@ public class Main {
             throw new RuntimeException(e);
         }
 
+        FileMessageDataAccessObject messageDataAccessObject;
+        try {
+            messageDataAccessObject = new FileMessageDataAccessObject("./channels/messages.csv", new SimpleMessageFactory(), clearanceDataAccessObject,userDataAccessObject);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         FileChannelDataAccessObject channelDataAccessObject;
         try {
-            channelDataAccessObject = new FileChannelDataAccessObject("./channels", new BasicChannelFactory(), new RSAKeyFactory(), new SimpleMessageFactory());
+            channelDataAccessObject = new FileChannelDataAccessObject("./channels/channel.csv", new BasicChannelFactory(),clearanceDataAccessObject,userDataAccessObject,messageDataAccessObject);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

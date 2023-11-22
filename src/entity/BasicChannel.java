@@ -14,6 +14,14 @@ public class BasicChannel implements Channel{
     private final HashMap<String, User> members;
     private final HashMap<String, User> supervisors;
 
+    public BasicChannel(){
+        this.name = "";
+        this.messages = new ArrayList<Message>();
+        this.clearances = new HashMap<String, Clearance>();
+        this.members = new HashMap<String, User>();
+        this.supervisors = new HashMap<String, User>();
+    }
+
     public BasicChannel(String name){
         this.name = name;
         this.messages = new ArrayList<Message>();
@@ -24,6 +32,9 @@ public class BasicChannel implements Channel{
 
     @Override
     public String getName() {return name;}
+
+    @Override
+    public void setName(String name){ this.name = name; }
 
     @Override
     public void addMember(User user) {this.members.put(user.getName(), user);}
@@ -37,6 +48,9 @@ public class BasicChannel implements Channel{
 
     @Override
     public User getMember(String username) {return members.get(username);}
+
+    @Override
+    public HashMap<String, User> getMembers(){return members;}
 
     @Override
     public boolean existsMember(String username) {return members.containsKey(username);}
@@ -101,6 +115,9 @@ public class BasicChannel implements Channel{
     public User getSupervisor(String username) {
         return this.supervisors.get(username);
     }
+
+    @Override
+    public HashMap<String, User> getSupervisors(){return supervisors;}
 
     @Override
     public boolean existsSupervisor(String username) {return supervisors.containsKey(username);}

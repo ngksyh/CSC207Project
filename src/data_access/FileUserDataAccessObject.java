@@ -60,8 +60,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         }
     }
 
-    public void addChannelObject(FileChannelDataAccessObject fileChannelDataAccessObject){this.channelDataAccessObject = fileChannelDataAccessObject;}
-
     @Override
     public void save(User user) {
         accounts.put(user.getName(), user);
@@ -73,7 +71,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         return accounts.get(username);
     }
 
-    private String stringJoinedBySpace(Set<String> s) {
+    public String stringJoinedBySpace(Set<String> s) {
         //to be implemented
         return String.join(" ", s);
 
