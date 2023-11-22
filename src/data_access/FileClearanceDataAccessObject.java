@@ -44,7 +44,8 @@ public class FileClearanceDataAccessObject {
                     //generates clearance
                     //Key key = keyFactory.create
 
-                    clearances.put(clrname, key);
+
+                    clearances.put(New Clearance(clrname, key));
                 }
             }
         }
@@ -58,9 +59,11 @@ public class FileClearanceDataAccessObject {
     }
 
     @Override
-    public User get(String clrname) {
+    public Clearance get(String clrname) {
         return clearances.get(clrname);
     }
+
+    public HashMap<String, Clearance> getClearances(){return this.clearances;}
 
 
 

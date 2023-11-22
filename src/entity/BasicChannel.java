@@ -2,7 +2,9 @@ package entity;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 public class BasicChannel implements Channel{
 
@@ -27,7 +29,7 @@ public class BasicChannel implements Channel{
     public void addMember(User user) {this.members.put(user.getName(), user);}
 
     @Override
-    public void addMember(ArrayList<User> users) {
+    public void addMember(Collection<User> users) {
         for(User user: users){
             addMember(user);
         }
@@ -43,7 +45,7 @@ public class BasicChannel implements Channel{
     public void addMessage(Message message) {this.messages.add(message);}
 
     @Override
-    public void addMessage(ArrayList<Message> messages) {this.messages.addAll(messages);}
+    public void addMessages(ArrayList<Message> messages) {this.messages.addAll(messages);}
 
     @Override
     public ArrayList<Message> getMessages(){return this.messages;}
@@ -52,10 +54,25 @@ public class BasicChannel implements Channel{
     public Message getLastMessage(){return this.messages.get(messages.size() - 1);}
 
     @Override
+    public ArrayList<Message> getUpToLast(int num){
+        if (num > messages.size()){
+            return new ArrayList<>(messages);
+        }else{
+            ArrayList<Message> msgs = new ArrayList<>();
+            int i = num;
+            while (i > 0){
+                msgs.add(messages.get(messages.size() - num));
+                i--;
+            }
+            return msgs;
+        }
+    }
+
+    @Override
     public void addClearance(Clearance clr) {this.clearances.put(clr.getName(), clr);}
 
     @Override
-    public void addClearances(ArrayList<Clearance> clrs) {
+    public void addClearances(Collection<Clearance> clrs) {
         for(Clearance c: clrs){
             this.clearances.put(c.getName(), clr);
         }
@@ -74,7 +91,7 @@ public class BasicChannel implements Channel{
     public void addSupervisor(User user) {this.supervisors.put(user.getName(), user);}
 
     @Override
-    public void addSupervisor(ArrayList<User> users) {
+    public void addSupervisor(Collection<User> users) {
         for (User user: users){
             addSupervisor(user);
         }

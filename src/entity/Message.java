@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public interface Message {
 
-    int getSentBy();
+    User getSentBy();
 
     Clearance getClearance();
 

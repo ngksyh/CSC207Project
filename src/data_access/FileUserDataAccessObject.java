@@ -6,10 +6,7 @@ import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 import java.io.*;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface{
 
@@ -24,7 +21,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
     private FileClearanceDataAccessObject fileClearanceDataAccessObject;
 
 
-    public FileUserDataAccessObject(String csvPath, UserFactory userFactory, FileClearanceDataAccessObject fileClearanceDataAccessObject) throws IOException {
+    public FileUserDataAccessObject(String csvPath, UserFactory userFactory,
+                                    FileClearanceDataAccessObject fileClearanceDataAccessObject) throws IOException {
         this.userFactory = userFactory;
         this.fileClearanceDataAccessObject = fileClearanceDataAccessObject;
 
@@ -51,9 +49,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     String clearanceText = String.valueOf(col[headers.get("clearances")]);
 
                     String[] clearances = clearanceText.split(" ");
-                    for (String c: clearances){chs.add(Integer.parseInt(s));}
+                    HashMap<String, Clearance> clrs = new HashMap<>()
+                    for (String clr: clearances){clrs.put(clr, fileClearanceDataAccessObject.get(clr));}
 
-                    User user = userFactory.create(username, password, );
+                    User user = userFactory.create(username, password, Boolean.getBoolean(isAdmin), clrs);
 
                     accounts.put(username, user);
                 }
@@ -74,13 +73,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         return accounts.get(username);
     }
 
-
-    private String integerCollectionToString(Collection<Integer> coll){
-        String str = "_";
-        for (Integer i: coll){
-            str.concat(i.toString()).concat("_");
-        }
-        return str;
+    private String stringJoinedBySpace(Set<String> s) {
+        //to be implemented
+        return String.join(" ", s);
 
     }
 
@@ -93,7 +88,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
             for (User user : accounts.values()) {
                 String line = String.format("%s,%s,%s,%s",
-                        user.getName(), user.getPassword(), user.getCreationTime(), integerCollectionToString(user.getChannel()));
+                        user.getName(), user.getPassword(), user.getIsAdmin().toString(),
+                        stringJoinedBySpace(user.getClearances.keySet()));
                 writer.write(line);
                 writer.newLine();
             }

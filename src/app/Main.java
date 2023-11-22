@@ -1,6 +1,7 @@
 package app;
 
 import data_access.FileChannelDataAccessObject;
+import data_access.FileClearanceDataAccessObject;
 import data_access.FileUserDataAccessObject;
 import entity.BasicChannelFactory;
 import entity.CommonUserFactory;
@@ -37,9 +38,16 @@ public class Main {
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
         //
+        FileClearanceDataAccessObject clearanceDataAccessObject;
+        try {
+            clearanceDataAccessObject = new FileClearanceDataAccessObject("./channels/clearances.csv", new KeyFactory());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         FileUserDataAccessObject userDataAccessObject;
         try {
-            userDataAccessObject = new FileUserDataAccessObject("./users.csv", new CommonUserFactory());
+            userDataAccessObject = new FileUserDataAccessObject("./users.csv", new CommonUserFactory(), clearanceDataAccessObject);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -51,8 +59,6 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        userDataAccessObject.addChannelObject(channelDataAccessObject);
-        channelDataAccessObject.addUserObject(userDataAccessObject);
         //Add views from here
 
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
@@ -61,7 +67,7 @@ public class Main {
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject, signupViewModel);
         views.add(loginView, loginView.viewName);
 
-        LoggedInView loggedInView = new LoggedInView(loggedInViewModel);
+        LoggedInView loggedInView = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModel);
         views.add(loggedInView, loggedInView.viewName);
 
 
