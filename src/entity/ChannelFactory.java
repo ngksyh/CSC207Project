@@ -5,4 +5,6 @@ import java.util.ArrayList;
 
 public interface ChannelFactory {
     Channel create(String name);
+
+    Channel create();
 }

@@ -6,7 +6,6 @@ import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface{
@@ -19,17 +18,19 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
     private UserFactory userFactory;
 
-    private FileChannelDataAccessObject channelDataAccessObject;
+    private FileClearanceDataAccessObject fileClearanceDataAccessObject;
 
-    public FileUserDataAccessObject(String csvPath, UserFactory userFactory) throws IOException {
+
+    public FileUserDataAccessObject(String csvPath, UserFactory userFactory,
+                                    FileClearanceDataAccessObject fileClearanceDataAccessObject) throws IOException {
         this.userFactory = userFactory;
-        this.channelDataAccessObject = null;
+        this.fileClearanceDataAccessObject = fileClearanceDataAccessObject;
 
         csvFile = new File(csvPath);
         headers.put("username", 0);
         headers.put("password", 1);
-        headers.put("creation_time", 2);
-        headers.put("channels", 3);
+        headers.put("isAdmin", 2);
+        headers.put("clearances", 3);
 
         if (csvFile.length() == 0) {
             save();
@@ -38,31 +39,26 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
                 String header = reader.readLine();
 
-                // For later: clean this up by creating a new Exception subclass and handling it in the UI.
-                assert header.equals("username,password,creation_time");
 
                 String row;
                 while ((row = reader.readLine()) != null) {
                     String[] col = row.split(",");
                     String username = String.valueOf(col[headers.get("username")]);
                     String password = String.valueOf(col[headers.get("password")]);
-                    String creationTimeText = String.valueOf(col[headers.get("creation_time")]);
-                    LocalDateTime ldt = LocalDateTime.parse(creationTimeText);
-                    String channelText = String.valueOf(col[headers.get("channels")]);
+                    String isAdmin = String.valueOf(col[headers.get("isAdmin")]);
+                    String clearanceText = String.valueOf(col[headers.get("clearances")]);
 
-                    String[] chans = channelText.split("_");
-                    ArrayList<Integer> chs = new ArrayList<Integer>();
-                    for (String s: chans){chs.add(Integer.parseInt(s));}
+                    String[] clearances = clearanceText.split(" ");
+                    HashMap<String, Clearance> clrs = new HashMap<>()
+                    for (String clr: clearances){clrs.put(clr, fileClearanceDataAccessObject.get(clr));}
 
-                    User user = userFactory.create(username, password);
+                    User user = userFactory.create(username, password, Boolean.getBoolean(isAdmin), clrs);
 
                     accounts.put(username, user);
                 }
             }
         }
     }
-
-    public void addChannelObject(FileChannelDataAccessObject fileChannelDataAccessObject){this.channelDataAccessObject = fileChannelDataAccessObject;}
 
     @Override
     public void save(User user) {
@@ -75,13 +71,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         return accounts.get(username);
     }
 
-
-    private String integerCollectionToString(Collection<Integer> coll){
-        String str = "_";
-        for (Integer i: coll){
-            str.concat(i.toString()).concat("_");
-        }
-        return str;
+    public String stringJoinedBySpace(Set<String> s) {
+        //to be implemented
+        return String.join(" ", s);
 
     }
 
@@ -94,7 +86,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
             for (User user : accounts.values()) {
                 String line = String.format("%s,%s,%s,%s",
-                        user.getName(), user.getPassword());
+                        user.getName(), user.getPassword(), user.getIsAdmin().toString(),
+                        stringJoinedBySpace(user.getClearances.keySet()));
                 writer.write(line);
                 writer.newLine();
             }
