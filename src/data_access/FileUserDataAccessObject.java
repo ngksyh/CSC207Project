@@ -1,5 +1,6 @@
 package data_access;
 
+import entity.Clearance;
 import entity.User;
 import entity.UserFactory;
 import use_case.login.LoginUserDataAccessInterface;
@@ -29,8 +30,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         csvFile = new File(csvPath);
         headers.put("username", 0);
         headers.put("password", 1);
-        headers.put("isAdmin", 2);
-        headers.put("clearances", 3);
+        headers.put("isadmin", 2);
+        headers.put("clearance", 3);
 
         if (csvFile.length() == 0) {
             save();
@@ -45,14 +46,12 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     String[] col = row.split(",");
                     String username = String.valueOf(col[headers.get("username")]);
                     String password = String.valueOf(col[headers.get("password")]);
-                    String isAdmin = String.valueOf(col[headers.get("isAdmin")]);
-                    String clearanceText = String.valueOf(col[headers.get("clearances")]);
+                    String isAdmin = String.valueOf(col[headers.get("isadmin")]);
+                    String clearance = String.valueOf(col[headers.get("clearance")]);
 
-                    String[] clearances = clearanceText.split(" ");
-                    HashMap<String, Clearance> clrs = new HashMap<>()
-                    for (String clr: clearances){clrs.put(clr, fileClearanceDataAccessObject.get(clr));}
-
-                    User user = userFactory.create(username, password, Boolean.getBoolean(isAdmin), clrs);
+                    User user = userFactory.create(username, password,
+                            Boolean.getBoolean(isAdmin),
+                            fileClearanceDataAccessObject.get(clearance));
 
                     accounts.put(username, user);
                 }
@@ -86,8 +85,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
             for (User user : accounts.values()) {
                 String line = String.format("%s,%s,%s,%s",
-                        user.getName(), user.getPassword(), user.getIsAdmin().toString(),
-                        stringJoinedBySpace(user.getClearances.keySet()));
+                        user.getName(), user.getPassword(),
+                        user.getIsadmin().toString(),
+                        user.getClearance());
                 writer.write(line);
                 writer.newLine();
             }
