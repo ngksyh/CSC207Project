@@ -66,7 +66,7 @@ public class FileClearanceDataAccessObject {
     public Clearance get(String clrname) {
         return clearances.get(clrname);
     }
-s
+  
     public Map<String, Clearance> getClearances(){return this.clearances;}
 
 

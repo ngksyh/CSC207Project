@@ -10,7 +10,7 @@ public class CommonUserFactory implements UserFactory {
      */
 
     @Override
-    public User create(String name, String password) {
-        return new CommonUser(name, password);
+    public User create(String name, String password, Boolean isAdmin, Clearance clearance) {
+        return new CommonUser(name, password, isAdmin, clearance);
     }
 }
