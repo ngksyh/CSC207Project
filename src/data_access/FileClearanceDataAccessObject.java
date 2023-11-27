@@ -45,7 +45,7 @@ public class FileClearanceDataAccessObject {
                     String privatekey = String.valueOf(col[headers.get("privatekey")]);
 
                     //generates clearance
-                    Key key = keyFactory.create()
+                    Key key = keyFactory.create();
 
 
                     clearances.put(new Clearance(clrname, key));
