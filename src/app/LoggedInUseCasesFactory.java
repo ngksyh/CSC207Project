@@ -18,6 +18,8 @@ import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
 import view.LoggedInView;
+import view.LoggedInViewAdmin;
+import view.LoggedInViewSupervisor;
 import view.LoginView;
 
 import javax.swing.*;
@@ -31,11 +33,14 @@ public class LoggedInUseCasesFactory {
     public static LoggedInView create(
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
-            LoggedInViewModel loggedInViewModel) {
+            LoggedInViewModel loggedInViewModel,
+            String viewName) {
 
         try {
             LoggedInController loggedInController = createLoggedInUseCases(viewManagerModel, loginViewModel, loggedInViewModel);
-            return new LoggedInView(loggedInViewModel, loggedInController);
+            if (viewName.equals("logged in")){return new LoggedInView(loggedInViewModel, loggedInController,viewName);}
+            else if (viewName.equals("logged in admin")){return new LoggedInViewAdmin(loggedInViewModel, loggedInController,viewName);}
+            else{return new LoggedInViewSupervisor(loggedInViewModel, loggedInController,viewName);}
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }

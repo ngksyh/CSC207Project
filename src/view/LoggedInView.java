@@ -14,7 +14,7 @@ import java.beans.PropertyChangeListener;
 
 public class LoggedInView extends JPanel implements ActionListener, PropertyChangeListener {
 
-    public final String viewName = "logged in";
+    public final String viewName;
     private final LoggedInViewModel loggedInViewModel;
 
     JLabel username;
@@ -26,10 +26,12 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     /**
      * A window with a title and a JButton.
      */
-    public LoggedInView(LoggedInViewModel loggedInViewModel, LoggedInController loggedInController) {
+    public LoggedInView(LoggedInViewModel loggedInViewModel, LoggedInController loggedInController, String viewName) {
         this.loggedInViewModel = loggedInViewModel;
         this.loggedInViewModel.addPropertyChangeListener(this);
         this.loggedInController = loggedInController;
+
+        this.viewName = viewName;
 
         JLabel title = new JLabel("Your account");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);

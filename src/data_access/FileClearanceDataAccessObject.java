@@ -44,12 +44,13 @@ public class FileClearanceDataAccessObject {
                     String clrname = String.valueOf(col[headers.get("clrname")]);
                     String publickey = String.valueOf(col[headers.get("publickey")]);
                     String privatekey = String.valueOf(col[headers.get("privatekey")]);
+                    String level = String.valueOf(col[headers.get("level")]);
 
                     //generates clearance
-                    Key key = keyFactory.create();
+                    Key key = keyFactory.create(publickey, privatekey);
 
 
-                    clearances.put(new Clearance(clrname, key));
+                    clearances.put(clrname, new Clearance(clrname, Integer.parseInt(level), key));
                 }
             }
         }
