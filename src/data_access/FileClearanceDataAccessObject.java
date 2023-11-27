@@ -26,6 +26,7 @@ public class FileClearanceDataAccessObject {
         headers.put("clrname", 0);
         headers.put("publickey", 1);
         headers.put("privatekey", 2);
+        headers.put("level", 3);
 
         if (csvFile.length() == 0) {
             save();
@@ -65,7 +66,7 @@ public class FileClearanceDataAccessObject {
     public Clearance get(String clrname) {
         return clearances.get(clrname);
     }
-
+  
     public Map<String, Clearance> getClearances(){return this.clearances;}
 
 
