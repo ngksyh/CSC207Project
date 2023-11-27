@@ -9,7 +9,19 @@ import java.util.HashMap;
 
 public class Encrypter {
 
+    ArrayList<Message> messages;
+    Clearance userClearance;
+    HashMap<String, Clearance> clearances;
+
     public Encrypter(ArrayList<Message> messages, Clearance userClearance, HashMap<String, Clearance> clearances) throws Exception {
+        this.messages = messages;
+        this.userClearance = userClearance;
+        this.clearances = clearances;
+
+
+    }
+
+    public ArrayList<Message> encrypt() throws Exception {
         String apiUrl = "http://localhost:3000/bake";
         String requestBody;
 
@@ -23,10 +35,8 @@ public class Encrypter {
                 encryptedMessages.add(message);
             }
         }
-
-
+        return encryptedMessages;
     }
-
     private static String makeApiCall(String apiUrl, String requestBody) throws Exception {
         // Create an HttpClient
         HttpClient httpClient = HttpClient.newHttpClient();
