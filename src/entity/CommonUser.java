@@ -14,7 +14,7 @@ public class CommonUser implements User{
 
     public Clearance clearance;
 
-    public Clearance clearance_0 = new Clearance("basic", 0);
+
 
 
     /**
@@ -22,11 +22,11 @@ public class CommonUser implements User{
      * @param name
      * @param password
      */
-    CommonUser(String name, String password) {
+    CommonUser(String name, String password, Boolean isAdmin, Clearance clearance) {
         this.name = name;
         this.password = password;
-        this.isadmin = false;
-        this.clearance = clearance_0;
+        this.isadmin = isAdmin;
+        this.clearance = clearance;
     }
 
     @Override
