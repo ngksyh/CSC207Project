@@ -9,19 +9,24 @@ public class CommonUser implements User{
 
     private final String name;
     private String password;
-    private final LocalDateTime creationTime;
-    private final ArrayList<Integer> channels;
+
+    public Boolean isadmin;
+
+    public Clearance clearance;
+
+    public Clearance clearance_0 = new Clearance("basic", 0);
+
 
     /**
      * Requires: password is valid.
      * @param name
      * @param password
      */
-    CommonUser(String name, String password, LocalDateTime creationTime, ArrayList<Integer> channels) {
+    CommonUser(String name, String password) {
         this.name = name;
         this.password = password;
-        this.creationTime = creationTime;
-        this.channels = channels;
+        this.isadmin = false;
+        this.clearance = clearance_0;
     }
 
     @Override
@@ -34,16 +39,13 @@ public class CommonUser implements User{
         return password;
     }
 
-    @Override
-    public LocalDateTime getCreationTime() {
-        return creationTime;
+    public Clearance getClearance() {
+        return clearance;
     }
 
-    @Override
-    public void addChannel(Integer channel) {
-        this.channels.add(channel);
+    public Boolean getIsadmin() {
+        return isadmin;
     }
 
-    @Override
-    public ArrayList<Integer> getChannel(){return channels;}
+
 }

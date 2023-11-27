@@ -7,15 +7,18 @@ import java.util.HashMap;
 public class BasicChannel implements Channel{
 
     private String name;
-    private final ArrayList<Message> messages;
-    private final HashMap<String, Clearance> clearances;
+    public ArrayList<Message> messages;
+    public HashMap<String, Clearance> clearances;
     private final HashMap<String, User> members;
     private final HashMap<String, User> supervisors;
+
+    public Clearance clearance_0 = new Clearance("basic", 0);
 
     public BasicChannel(String name){
         this.name = name;
         this.messages = new ArrayList<Message>();
         this.clearances = new HashMap<String, Clearance>();
+        this.clearances.put("basic", clearance_0);
         this.members = new HashMap<String, User>();
         this.supervisors = new HashMap<String, User>();
     }
@@ -57,7 +60,7 @@ public class BasicChannel implements Channel{
     @Override
     public void addClearances(ArrayList<Clearance> clrs) {
         for(Clearance c: clrs){
-            this.clearances.put(c.getName(), clr);
+            this.clearances.put(c.getName(), c);
         }
     }
 

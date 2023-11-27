@@ -54,7 +54,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     ArrayList<Integer> chs = new ArrayList<Integer>();
                     for (String s: chans){chs.add(Integer.parseInt(s));}
 
-                    User user = userFactory.create(username, password, ldt, chs);
+                    User user = userFactory.create(username, password);
 
                     accounts.put(username, user);
                 }
@@ -94,7 +94,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
 
             for (User user : accounts.values()) {
                 String line = String.format("%s,%s,%s,%s",
-                        user.getName(), user.getPassword(), user.getCreationTime(), integerCollectionToString(user.getChannel()));
+                        user.getName(), user.getPassword());
                 writer.write(line);
                 writer.newLine();
             }
