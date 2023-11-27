@@ -18,7 +18,7 @@ public class Clearance {
     Clearance(String name, Integer level) {
         this.name = name;
         this.level = level;
-        this.key = new RSAKeyFactory().create(0);
+        this.key = new RSAKeyFactory().create();
     }
 
 
