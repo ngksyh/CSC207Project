@@ -8,18 +8,18 @@ import java.net.http.HttpResponse;
 public class RSAKeyFactory implements KeyFactory {
 
     @Override
-    public Key create(int id, String encryptionKey, String decryptionKey) {
-        return new RSAKey(id, encryptionKey, decryptionKey);
+    public Key create(String encryptionKey, String decryptionKey) {
+        return new RSAKey(encryptionKey, decryptionKey);
     }
 
-    public Key create(int id) {
-        String[] a = new String[0];
+    public Key create() {
+        String[] a = new String[2];
         try {
             a = RSACreate();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return new RSAKey(id, a[0], a[1]);
+        return new RSAKey(a[0], a[1]);
     }
 
     public static String[] RSACreate() throws Exception {
