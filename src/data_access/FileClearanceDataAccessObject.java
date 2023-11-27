@@ -1,5 +1,8 @@
 package data_access;
 
+import entity.Clearance;
+import entity.Key;
+import entity.KeyFactory;
 import entity.User;
 
 import java.io.*;
@@ -16,7 +19,7 @@ public class FileClearanceDataAccessObject {
     private KeyFactory keyFactory;
 
 
-    public FileClearanceDataAccessObject(String csvPath, KeyFactory keyFactory) throws IOException {
+    public FileClearanceDataAccessObject(String csvPath, entity.KeyFactory keyFactory) throws IOException {
         this.keyFactory = keyFactory;
 
         csvFile = new File(csvPath);
@@ -42,10 +45,10 @@ public class FileClearanceDataAccessObject {
                     String privatekey = String.valueOf(col[headers.get("privatekey")]);
 
                     //generates clearance
-                    //Key key = keyFactory.create
+                    Key key = keyFactory.create()
 
 
-                    clearances.put(New Clearance(clrname, key));
+                    clearances.put(new Clearance(clrname, key));
                 }
             }
         }
