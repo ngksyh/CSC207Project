@@ -4,6 +4,7 @@ import data_access.FileChannelDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.create_clearance.CreateClearanceViewModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
@@ -30,13 +31,13 @@ public class LoginUseCaseFactory {
             LoggedInViewModel loggedInViewModelAdmin,
             LoggedInViewModel loggedInViewModelSupervisor,
             LoginUserDataAccessInterface userDataAccessObject,
-            SignupViewModel signupViewModel,
+            SignupViewModel signupViewModel, CreateClearanceViewModel createClearanceViewModel,
             FileChannelDataAccessObject fileChannelDataAccessObject) {
 
         try {
             LoginController loginController = createLoginUseCase(
                     viewManagerModel, loginViewModel, loggedInViewModel, loggedInViewModelAdmin, loggedInViewModelSupervisor
-                    ,userDataAccessObject, signupViewModel
+                    ,userDataAccessObject, signupViewModel, createClearanceViewModel
                     ,fileChannelDataAccessObject);
             return new LoginView(loginViewModel, loginController);
         } catch (IOException e) {
@@ -54,12 +55,13 @@ public class LoginUseCaseFactory {
             LoggedInViewModel loggedInViewModelSupervisor,
             LoginUserDataAccessInterface userDataAccessObject,
             SignupViewModel signupViewModel,
+            CreateClearanceViewModel createClearanceViewModel,
             FileChannelDataAccessObject fileChannelDataAccessObject) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
         LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 loggedInViewModel, loggedInViewModelAdmin, loggedInViewModelSupervisor,
-                loginViewModel, signupViewModel);
+                loginViewModel, signupViewModel, createClearanceViewModel);
 
         UserFactory userFactory = new CommonUserFactory();
 

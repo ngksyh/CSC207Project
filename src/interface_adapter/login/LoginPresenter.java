@@ -1,6 +1,7 @@
 package interface_adapter.login;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.create_clearance.CreateClearanceViewModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.signup.SignupState;
@@ -14,6 +15,7 @@ public class LoginPresenter implements LoginOutputBoundary {
     private final LoggedInViewModel loggedInViewModel;
     private final LoggedInViewModel loggedInViewModelAdmin;
     private final LoggedInViewModel loggedInViewModelSupervisor;
+    private final CreateClearanceViewModel createClearanceViewModel;
 
 
     private final SignupViewModel signupViewModel;
@@ -24,13 +26,15 @@ public class LoginPresenter implements LoginOutputBoundary {
                           LoggedInViewModel loggedInViewModelAdmin,
                           LoggedInViewModel loggedInViewModelSupervisor,
                           LoginViewModel loginViewModel,
-                          SignupViewModel signupViewModel) {
+                          SignupViewModel signupViewModel,
+                          CreateClearanceViewModel createClearanceViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.loggedInViewModel = loggedInViewModel;
         this.loggedInViewModelAdmin = loggedInViewModelAdmin;
         this.loggedInViewModelSupervisor = loggedInViewModelSupervisor;
         this.loginViewModel = loginViewModel;
         this.signupViewModel = signupViewModel;
+        this.createClearanceViewModel = createClearanceViewModel;
     }
 
     @Override
