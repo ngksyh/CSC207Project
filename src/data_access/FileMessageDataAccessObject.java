@@ -54,7 +54,6 @@ public class FileMessageDataAccessObject {
     }
 
 
-    @Override
     public void save(Message message) {
         messages.add(message);
         this.save();
@@ -90,14 +89,5 @@ public class FileMessageDataAccessObject {
 
 
 
-    /**
-     * Return whether a user exists with username identifier.
-     * @param identifier the username to check.
-     * @return whether a user exists with username identifier
-     */
-    @Override
-    public boolean existsByName(String identifier) {
-        return clearances.containsKey(identifier);
-    }
 
 }

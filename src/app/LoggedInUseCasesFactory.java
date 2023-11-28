@@ -33,14 +33,13 @@ public class LoggedInUseCasesFactory {
     public static LoggedInView create(
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
-            LoggedInViewModel loggedInViewModel,
-            String viewName) {
+            LoggedInViewModel loggedInViewModel) {
 
         try {
             LoggedInController loggedInController = createLoggedInUseCases(viewManagerModel, loginViewModel, loggedInViewModel);
-            if (viewName.equals("logged in")){return new LoggedInView(loggedInViewModel, loggedInController,viewName);}
-            else if (viewName.equals("logged in admin")){return new LoggedInViewAdmin(loggedInViewModel, loggedInController,viewName);}
-            else{return new LoggedInViewSupervisor(loggedInViewModel, loggedInController,viewName);}
+            if (loggedInViewModel.getViewName().equals("logged in")){return new LoggedInView(loggedInViewModel, loggedInController);}
+            else if (loggedInViewModel.getViewName().equals("logged in admin")){return new LoggedInViewAdmin(loggedInViewModel, loggedInController);}
+            else{return new LoggedInViewSupervisor(loggedInViewModel, loggedInController);}
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }

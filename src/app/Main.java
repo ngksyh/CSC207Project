@@ -35,10 +35,13 @@ public class Main {
         LoginViewModel loginViewModel = new LoginViewModel();
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
+
+        LoggedInViewModel loggedInViewModelAdmin = new LoggedInViewModel("logged in admin");
+        LoggedInViewModel loggedInViewModelSupervisor = new LoggedInViewModel("logged in supervisor");
         //
         FileClearanceDataAccessObject clearanceDataAccessObject;
         try {
-            clearanceDataAccessObject = new FileClearanceDataAccessObject("./channels/clearances.csv", new KeyFactory());
+            clearanceDataAccessObject = new FileClearanceDataAccessObject("./channels/clearances.csv", new RSAKeyFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -59,22 +62,27 @@ public class Main {
 
         FileChannelDataAccessObject channelDataAccessObject;
         try {
-            channelDataAccessObject = new FileChannelDataAccessObject("./channels/channel.csv", new BasicChannelFactory(),clearanceDataAccessObject,userDataAccessObject,messageDataAccessObject);
+            channelDataAccessObject = new FileChannelDataAccessObject("./channels/channel.csv", new BasicChannelFactory(),clearanceDataAccessObject,userDataAccessObject,
+                    messageDataAccessObject, new CommonUserFactory(), new ClearanceFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         //Add views from here
 
-        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
+        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, clearanceDataAccessObject);
         views.add(signupView, signupView.viewName);
 
-        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject, signupViewModel);
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, loggedInViewModelAdmin, loggedInViewModelSupervisor
+                ,userDataAccessObject, signupViewModel, channelDataAccessObject);
         views.add(loginView, loginView.viewName);
 
         LoggedInView loggedInView = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModel);
+        LoggedInView loggedInViewAdmin = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModelAdmin);
+        LoggedInView loggedInViewSupervisor = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModelSupervisor);
         views.add(loggedInView, loggedInView.viewName);
-
+        views.add(loggedInViewAdmin, loggedInViewAdmin.viewName);
+        views.add(loggedInViewSupervisor, loggedInViewSupervisor.viewName);
 
         //
         viewManagerModel.setActiveView(loginView.viewName);
