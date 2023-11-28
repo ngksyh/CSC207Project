@@ -2,6 +2,7 @@ package entity;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 public interface Channel {
@@ -9,25 +10,31 @@ public interface Channel {
 
     String getName();
 
+    void setName(String name);
+
     void addMember(User user);
 
-    void addMember(ArrayList<User> users);
+    void addMember(Collection<User> users);
 
     User getMember(String username);
+
+    HashMap<String, User> getMembers();
 
     boolean existsMember(String username);
 
     void addMessage(Message message);
 
-    void addMessage(ArrayList<Message> messages);
+    void addMessages(ArrayList<Message> messages);
 
     ArrayList<Message> getMessages();
 
     Message getLastMessage();
 
+    ArrayList<Message> getUpToLast(int num);
+
     void addClearance(Clearance clr);
 
-    void addClearances(ArrayList<Clearance> clrs);
+    void addClearances(Collection<Clearance> clrs);
 
     HashMap<String, Clearance> getClearances();
 
@@ -37,9 +44,11 @@ public interface Channel {
 
     void addSupervisor(User user);
 
-    void addSupervisor(ArrayList<User> users);
+    void addSupervisor(Collection<User> users);
 
     User getSupervisor(String username);
+
+    HashMap<String, User> getSupervisors();
 
     boolean existsSupervisor(String username);
 

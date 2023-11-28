@@ -1,5 +1,6 @@
 package app;
 
+import data_access.FileChannelDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
@@ -26,11 +27,17 @@ public class LoginUseCaseFactory {
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
+            LoggedInViewModel loggedInViewModelAdmin,
+            LoggedInViewModel loggedInViewModelSupervisor,
             LoginUserDataAccessInterface userDataAccessObject,
-            SignupViewModel signupViewModel) {
+            SignupViewModel signupViewModel,
+            FileChannelDataAccessObject fileChannelDataAccessObject) {
 
         try {
-            LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject, signupViewModel);
+            LoginController loginController = createLoginUseCase(
+                    viewManagerModel, loginViewModel, loggedInViewModel, loggedInViewModelAdmin, loggedInViewModelSupervisor
+                    ,userDataAccessObject, signupViewModel
+                    ,fileChannelDataAccessObject);
             return new LoginView(loginViewModel, loginController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -43,16 +50,21 @@ public class LoginUseCaseFactory {
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
+            LoggedInViewModel loggedInViewModelAdmin,
+            LoggedInViewModel loggedInViewModelSupervisor,
             LoginUserDataAccessInterface userDataAccessObject,
-            SignupViewModel signupViewModel) throws IOException {
+            SignupViewModel signupViewModel,
+            FileChannelDataAccessObject fileChannelDataAccessObject) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
-        LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel, loggedInViewModel, loginViewModel, signupViewModel);
+        LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
+                loggedInViewModel, loggedInViewModelAdmin, loggedInViewModelSupervisor,
+                loginViewModel, signupViewModel);
 
         UserFactory userFactory = new CommonUserFactory();
 
         LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject, loginOutputBoundary);
+                userDataAccessObject, loginOutputBoundary, fileChannelDataAccessObject);
 
         return new LoginController(loginInteractor);
     }

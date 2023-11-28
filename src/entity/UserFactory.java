@@ -6,6 +6,6 @@ import java.util.HashMap;
 
 public interface UserFactory {
     /** Requires: password is valid. */
-    User create(String name, String password, LocalDateTime ltd, ArrayList<Integer> channels);
+    User create(String name, String password, Boolean isAdmin, Clearance clearance);
 
 }

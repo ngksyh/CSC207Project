@@ -1,15 +1,19 @@
 package use_case.login;
 
+import data_access.FileChannelDataAccessObject;
 import entity.User;
 
 public class LoginInteractor implements LoginInputBoundary {
     final LoginUserDataAccessInterface userDataAccessObject;
+    final FileChannelDataAccessObject channelDataAccessObject;
     final LoginOutputBoundary loginPresenter;
 
     public LoginInteractor(LoginUserDataAccessInterface userDataAccessInterface,
-                           LoginOutputBoundary loginOutputBoundary) {
+                           LoginOutputBoundary loginOutputBoundary,
+                           FileChannelDataAccessObject channelDataAccessObject) {
         this.userDataAccessObject = userDataAccessInterface;
         this.loginPresenter = loginOutputBoundary;
+        this.channelDataAccessObject = channelDataAccessObject;
     }
 
     @Override
@@ -27,7 +31,11 @@ public class LoginInteractor implements LoginInputBoundary {
                 User user = userDataAccessObject.get(loginInputData.getUsername());
 
                 LoginOutputData loginOutputData = new LoginOutputData(user.getName(), false);
-                loginPresenter.prepareSuccessView(loginOutputData);
+
+                String viewname = "logged in";
+                if (user.getIsadmin()){viewname = "logged in admin";}
+                else if (channelDataAccessObject.getChannel().existsSupervisor(user.getName())){viewname = "logged in supervisor";}
+                loginPresenter.prepareSuccessView(loginOutputData, viewname);
             }
         }
     }

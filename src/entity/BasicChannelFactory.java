@@ -8,4 +8,9 @@ public class BasicChannelFactory implements ChannelFactory{
     public Channel create(String name) {
         return new BasicChannel(name);
     }
+
+    @Override
+    public Channel create(){
+        return new BasicChannel();
+    }
 }

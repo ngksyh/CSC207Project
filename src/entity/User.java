@@ -11,11 +11,12 @@ public interface User {
 
     String getPassword();
 
-    LocalDateTime getCreationTime();
+    Clearance getClearance();
 
-    void addChannel(Integer channel);
+    Boolean getIsadmin();
 
-    ArrayList<Integer> getChannel();
+
+
 
 
 }
