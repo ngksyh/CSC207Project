@@ -1,12 +1,13 @@
 package data_access;
 
 import entity.*;
+import use_case.create_clearance.CreateClearanceChannelDataAccessInterface;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class FileChannelDataAccessObject {
+public class FileChannelDataAccessObject implements CreateClearanceChannelDataAccessInterface {
 
     private final String commonPath;
 
@@ -279,4 +280,18 @@ public class FileChannelDataAccessObject {
     }
 
 
+    @Override
+    public boolean clearanceExistsByName(String identifier) {
+        return false;
+    }
+
+    @Override
+    public void saveClearance(Clearance clearance) {
+
+    }
+
+    @Override
+    public Clearance getClearance(String name) {
+        return null;
+    }
 }
