@@ -4,12 +4,14 @@ public class CreateClearanceInputData {
 
     final private String name;
 
-    public CreateClearanceInputData(String name) {
-        this.name = name;
+    final private String level;
+    public CreateClearanceInputData(String name, String level) {
+        this.name = name; this.level = level;
     }
 
     String getName() {
         return name;
     }
+    String getLevel(){return level;}
 
 }

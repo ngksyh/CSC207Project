@@ -1,7 +1,6 @@
 package interface_adapter.create_clearance;
 
 import interface_adapter.ViewModel;
-import interface_adapter.login.LoginState;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -10,6 +9,7 @@ public class CreateClearanceViewModel extends ViewModel {
 
     public final String TITLE_LABEL = "Create New Clearance View";
     public final String NAME_LABEL = "Enter Clearance Name";
+    public final String LEVEL_LABEL = "Enter Clearance Level";
 
     public static final String CREATE_BUTTON_LABEL = "Create";
     public static final String CANCEL_BUTTON_LABEL = "Cancel";

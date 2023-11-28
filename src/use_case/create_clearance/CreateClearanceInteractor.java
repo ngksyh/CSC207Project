@@ -1,9 +1,6 @@
 package use_case.create_clearance;
 
-import entity.Clearance;
-import entity.Key;
-import entity.User;
-import use_case.login.*;
+import entity.*;
 
 public class CreateClearanceInteractor implements CreateClearanceInputBoundary {
     final CreateClearanceChannelDataAccessInterface channelDataAccessObject;
@@ -15,17 +12,31 @@ public class CreateClearanceInteractor implements CreateClearanceInputBoundary {
         this.createClearancePresenter = createClearancePresenter;
     }
 
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
+    }
     @Override
     public void execute(CreateClearanceInputData createClearanceInputData) {
         String name = createClearanceInputData.getName();
+        String level = createClearanceInputData.getLevel();
         if (!channelDataAccessObject.existsByName(name)) {
             createClearancePresenter.prepareFailView(name + ": Is already used for an existing clearance.");
-        } else {
-                // Creates New Clearance w name name
-                Clearance clearance = null;
+        }
+        else if (!isNumeric(level)){createClearancePresenter.prepareFailView(name + ": Is already used for an existing clearance.");}
+        else {
+                // Creates New Clearance w name
+                RSAKeyFactory rsaKeyFactory = new RSAKeyFactory();
+                Key key = rsaKeyFactory.create();
+                ClearanceFactory clearanceFactory= new ClearanceFactory();
+                Clearance clearance = clearanceFactory.create(createClearanceInputData.getName(), Integer.valueOf(createClearanceInputData.getLevel()), key);
                 // Logic Above; requires implementation of class
 
-                CreateClearanceOutputData createClearanceOutputData = new CreateClearanceOutputData(clearance.getName(), false);
+                CreateClearanceOutputData createClearanceOutputData = new CreateClearanceOutputData(clearance.getName(), clearance.getLevel().toString(),false);
                 createClearancePresenter.prepareSuccessView(createClearanceOutputData);
             }
     }

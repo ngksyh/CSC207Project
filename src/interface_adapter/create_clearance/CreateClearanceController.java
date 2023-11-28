@@ -2,8 +2,6 @@ package interface_adapter.create_clearance;
 
 import use_case.create_clearance.CreateClearanceInputBoundary;
 import use_case.create_clearance.CreateClearanceInputData;
-import use_case.login.LoginInputBoundary;
-import use_case.login.LoginInputData;
 
 public class CreateClearanceController {
 
@@ -13,9 +11,9 @@ public class CreateClearanceController {
     }
 
 
-    public void execute(String clearance_name) {
+    public void execute(String clearance_name, String clearance_level) {
         CreateClearanceInputData createClearanceInputData = new CreateClearanceInputData(
-                clearance_name);
+                clearance_name, clearance_level);
 
         createclearanceUseCaseInteractor.execute(createClearanceInputData);
     }
