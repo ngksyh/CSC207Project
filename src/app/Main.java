@@ -63,23 +63,23 @@ public class Main {
         FileChannelDataAccessObject channelDataAccessObject;
         try {
             channelDataAccessObject = new FileChannelDataAccessObject("./channels/channel.csv", new BasicChannelFactory(),clearanceDataAccessObject,userDataAccessObject,
-                    messageDataAccessObject, new CommonUserFactory(), new ClearanceFactory());
+                    messageDataAccessObject, new CommonUserFactory(), new ClearanceFactory(), new SimpleMessageFactory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         //Add views from here
 
-        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, clearanceDataAccessObject);
+        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, channelDataAccessObject, clearanceDataAccessObject);
         views.add(signupView, signupView.viewName);
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, loggedInViewModelAdmin, loggedInViewModelSupervisor
                 ,userDataAccessObject, signupViewModel, createClearanceViewModel, channelDataAccessObject);
         views.add(loginView, loginView.viewName);
 
-        LoggedInView loggedInView = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, createClearanceViewModel);
-        LoggedInView loggedInViewAdmin = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModelAdmin, createClearanceViewModel);
-        LoggedInView loggedInViewSupervisor = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModelSupervisor, createClearanceViewModel);
+        LoggedInView loggedInView = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, createClearanceViewModel, channelDataAccessObject);
+        LoggedInView loggedInViewAdmin = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModelAdmin, createClearanceViewModel, channelDataAccessObject);
+        LoggedInView loggedInViewSupervisor = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModelSupervisor, createClearanceViewModel, channelDataAccessObject);
         views.add(loggedInView, loggedInView.viewName);
         views.add(loggedInViewAdmin, loggedInViewAdmin.viewName);
         views.add(loggedInViewSupervisor, loggedInViewSupervisor.viewName);

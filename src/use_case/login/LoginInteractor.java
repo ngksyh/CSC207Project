@@ -30,7 +30,7 @@ public class LoginInteractor implements LoginInputBoundary {
 
                 User user = userDataAccessObject.get(loginInputData.getUsername());
 
-                LoginOutputData loginOutputData = new LoginOutputData(user.getName(), false);
+                LoginOutputData loginOutputData = new LoginOutputData(user, false);
 
                 String viewname = "logged in";
                 if (user.getIsadmin()){viewname = "logged in admin";}

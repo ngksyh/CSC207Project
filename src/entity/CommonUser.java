@@ -10,9 +10,9 @@ public class CommonUser implements User{
     private final String name;
     private String password;
 
-    public Boolean isadmin;
+    private final Boolean isadmin;
 
-    public Clearance clearance;
+    private Clearance clearance;
 
 
 
@@ -22,7 +22,7 @@ public class CommonUser implements User{
      * @param name
      * @param password
      */
-    CommonUser(String name, String password, Boolean isAdmin, Clearance clearance) {
+    public CommonUser(String name, String password, Boolean isAdmin, Clearance clearance) {
         this.name = name;
         this.password = password;
         this.isadmin = isAdmin;

@@ -1,11 +1,11 @@
 package use_case.getFeed;
 
-public class getFeedOutputData {
+public class GetFeedOutputData {
 
     private final String feed;
 
 
-    public getFeedOutputData(String feed) {
+    public GetFeedOutputData(String feed) {
         this.feed = feed;
 
     }

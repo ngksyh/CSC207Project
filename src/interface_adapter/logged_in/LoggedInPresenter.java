@@ -5,11 +5,11 @@ import interface_adapter.create_clearance.CreateClearanceState;
 import interface_adapter.create_clearance.CreateClearanceViewModel;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
-import interface_adapter.signup.SignupState;
-import interface_adapter.signup.SignupViewModel;
+import use_case.getFeed.GetFeedOutputBoundary;
+import use_case.getFeed.GetFeedOutputData;
 import use_case.logout.LogoutOutputBoundary;
 
-public class LoggedInPresenter implements LogoutOutputBoundary {
+public class LoggedInPresenter implements LogoutOutputBoundary, GetFeedOutputBoundary {
 
     private final LoginViewModel loginViewModel;
     private final LoggedInViewModel loggedInViewModel;
@@ -43,6 +43,16 @@ public class LoggedInPresenter implements LogoutOutputBoundary {
 
         viewManagerModel.setActiveView(createClearanceViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void displayFeed(GetFeedOutputData getFeedOutputData){
+        LoggedInState state = loggedInViewModel.getState();
+        state.setFeed(getFeedOutputData.getFeed());
+
+        loggedInViewModel.setState(state);
+        loggedInViewModel.firePropertyChanged();
+
     }
 
 }

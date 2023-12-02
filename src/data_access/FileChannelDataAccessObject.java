@@ -2,12 +2,11 @@ package data_access;
 
 import entity.*;
 import use_case.create_clearance.CreateClearanceChannelDataAccessInterface;
+import use_case.signup.SignupUserDataAccessInterface;
 
 import java.io.*;
-import java.time.LocalDateTime;
-import java.util.*;
 
-public class FileChannelDataAccessObject implements CreateClearanceChannelDataAccessInterface {
+public class FileChannelDataAccessObject implements SignupUserDataAccessInterface, CreateClearanceChannelDataAccessInterface {
 
     private final File csvFile;
 
@@ -22,19 +21,23 @@ public class FileChannelDataAccessObject implements CreateClearanceChannelDataAc
     private UserFactory userFactory;
     private ClearanceFactory clearanceFactory;
 
+    private  MessageFactory messageFactory;
+
 
     public FileChannelDataAccessObject(String csvPath, ChannelFactory channelFactory,
                                        FileClearanceDataAccessObject clearanceDataAccessObject,
                                        FileUserDataAccessObject userDataAccessObject,
                                        FileMessageDataAccessObject messageDataAccessObject,
                                        UserFactory userFactory,
-                                       ClearanceFactory clearanceFactory) throws IOException {
+                                       ClearanceFactory clearanceFactory,
+                                       MessageFactory messageFactory) throws IOException {
         this.channelFactory = channelFactory;
         this.clearanceDataAccessObject = clearanceDataAccessObject;
         this.userDataAccessObject = userDataAccessObject;
         this.messageDataAccessObject = messageDataAccessObject;
         this.userFactory = userFactory;
         this.clearanceFactory = clearanceFactory;
+        this.messageFactory = messageFactory;
 
         csvFile = new File(csvPath);
 
@@ -44,12 +47,17 @@ public class FileChannelDataAccessObject implements CreateClearanceChannelDataAc
             Key key = new RSAKey("2", "2");
             Clearance basicClearance = clearanceFactory.create("BasicClearance", 0, key);
             User adminUser = userFactory.create("Admin", "1111", true, basicClearance);
+            Message message = messageFactory.create(adminUser, basicClearance, "Hello, welcome to the channel!");
+
             clearanceDataAccessObject.save(basicClearance);
             userDataAccessObject.save(adminUser);
+            messageDataAccessObject.save(message);
 
             channel.addClearance(basicClearance);
             channel.addMember(adminUser);
             channel.addSupervisor(adminUser);
+            channel.addMessage(message);
+
             save();
         } else {
 
@@ -110,7 +118,18 @@ public class FileChannelDataAccessObject implements CreateClearanceChannelDataAc
         return clearanceDataAccessObject.get(name);
     }
 
-    public void addMember(User user){
+
+    public boolean userExistsByName(String identifier){
+        return userDataAccessObject.existsByName(identifier);
+    }
+
+
+    public void save(User user){
+        userDataAccessObject.save(user);
+        addMember(user);
+    }
+
+    private void addMember(User user){
         channel.addMember(user);
         save();
     }

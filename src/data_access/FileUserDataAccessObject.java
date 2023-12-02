@@ -9,7 +9,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 import java.io.*;
 import java.util.*;
 
-public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface{
+public class FileUserDataAccessObject implements LoginUserDataAccessInterface{
 
     private final File csvFile;
 
@@ -49,10 +49,15 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     String isAdmin = String.valueOf(col[headers.get("isadmin")]);
                     String clearance = String.valueOf(col[headers.get("clearance")]);
 
+                    Boolean isadmin = false;
+
+                    if (isAdmin.equals("true")){isadmin = true;}
+
 
                     User user = userFactory.create(username, password,
-                            Boolean.getBoolean(isAdmin),
+                            isadmin,
                             fileClearanceDataAccessObject.get(clearance));
+
 
                     accounts.put(username, user);
                 }
@@ -85,6 +90,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
             writer.newLine();
 
             for (User user : accounts.values()) {
+
                 String line = String.format("%s,%s,%s,%s",
                         user.getName(), user.getPassword(),
                         user.getIsadmin().toString(),

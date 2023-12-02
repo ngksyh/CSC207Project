@@ -42,7 +42,7 @@ public class LoginPresenter implements LoginOutputBoundary {
         // On success, switch to the logged in view.
 
         LoggedInState loggedInState = new LoggedInState();
-        loggedInState.setUsername(response.getUsername());
+        loggedInState.setUser(response.getUser());
 
         if (viewname.equals("logged in")){
             this.loggedInViewModel.setState(loggedInState);

@@ -4,6 +4,7 @@ import interface_adapter.logged_in.LoggedInController;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LoginState;
+import use_case.getFeed.GetFeedInputData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +25,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     final JButton logOut;
 
     final JButton send;
+
+    final JButton showMessage;
 
     final JTextArea messagesReceived = new JTextArea(15, 40);
 
@@ -62,8 +65,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         JPanel buttons = new JPanel();
         logOut = new JButton(loggedInViewModel.LOGOUT_BUTTON_LABEL);
         send = new JButton(loggedInViewModel.SEND_BUTTON_LABEL);
+        showMessage = new JButton(loggedInViewModel.SHOWMESSAGE_BUTTON_LABEL);
+
         buttons.add(logOut);
         buttons.add(send);
+        buttons.add(showMessage);
 
 
         logOut.addActionListener(
@@ -80,6 +86,16 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(send)) { }
+                    }
+                }
+        );
+
+        showMessage.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(showMessage)) {
+                            loggedInController.displayFeed(new GetFeedInputData(loggedInViewModel.getState().getUser()));}
                     }
                 }
         );
@@ -111,6 +127,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.add(username);
         this.add(messages);
         this.add(buttons);
+
     }
 
     /**
@@ -120,10 +137,15 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         System.out.println("Click " + evt.getActionCommand());
     }
 
+    public void displayFeed(){
+
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         LoggedInState state = (LoggedInState) evt.getNewValue();
-        username.setText(state.getUsername());
+        username.setText(state.getUser().getName());
         messagesToSend.setText(state.getMessageToSend());
+        messagesReceived.setText(state.getFeed());
     }
 }

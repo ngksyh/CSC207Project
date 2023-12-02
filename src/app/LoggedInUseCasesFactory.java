@@ -1,5 +1,6 @@
 package app;
 
+import data_access.FileChannelDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
@@ -11,6 +12,9 @@ import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupViewModel;
+import use_case.getFeed.GetFeedInputBoundary;
+import use_case.getFeed.GetFeedInteractor;
+import use_case.getFeed.GetFeedOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -35,10 +39,11 @@ public class LoggedInUseCasesFactory {
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
-            CreateClearanceViewModel createClearanceViewModel) {
+            CreateClearanceViewModel createClearanceViewModel,
+            FileChannelDataAccessObject fileChannelDataAccessObject) {
 
         try {
-            LoggedInController loggedInController = createLoggedInUseCases(viewManagerModel, loginViewModel, loggedInViewModel, createClearanceViewModel);
+            LoggedInController loggedInController = createLoggedInUseCases(viewManagerModel, loginViewModel, loggedInViewModel, createClearanceViewModel, fileChannelDataAccessObject);
             if (loggedInViewModel.getViewName().equals("logged in")){return new LoggedInView(loggedInViewModel, loggedInController);}
             else if (loggedInViewModel.getViewName().equals("logged in admin")){return new LoggedInViewAdmin(loggedInViewModel, loggedInController);}
             else{return new LoggedInViewSupervisor(loggedInViewModel, loggedInController);}
@@ -53,7 +58,8 @@ public class LoggedInUseCasesFactory {
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
-            CreateClearanceViewModel createClearanceViewModel) throws IOException {
+            CreateClearanceViewModel createClearanceViewModel,
+            FileChannelDataAccessObject fileChannelDataAccessObject) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
         LogoutOutputBoundary logoutOutputBoundary = new LoggedInPresenter(viewManagerModel, loggedInViewModel, loginViewModel, createClearanceViewModel);
@@ -61,7 +67,9 @@ public class LoggedInUseCasesFactory {
         LogoutInputBoundary logoutInteractor = new LogoutInteractor(
                 logoutOutputBoundary);
 
+        GetFeedInputBoundary getFeedInteractor = new GetFeedInteractor((GetFeedOutputBoundary) logoutOutputBoundary, fileChannelDataAccessObject);
 
-        return new LoggedInController(logoutInteractor);
+
+        return new LoggedInController(logoutInteractor, getFeedInteractor);
     }
 }

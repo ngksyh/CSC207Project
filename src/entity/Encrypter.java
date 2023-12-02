@@ -13,7 +13,7 @@ public class Encrypter {
     Clearance userClearance;
     HashMap<String, Clearance> clearances;
 
-    public Encrypter(ArrayList<Message> messages, Clearance userClearance, HashMap<String, Clearance> clearances) throws Exception {
+    public Encrypter(ArrayList<Message> messages, Clearance userClearance, HashMap<String, Clearance> clearances){
         this.messages = messages;
         this.userClearance = userClearance;
         this.clearances = clearances;

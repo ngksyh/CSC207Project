@@ -1,22 +1,26 @@
 package interface_adapter.logged_in;
 
+import entity.User;
+
 public class LoggedInState {
-    private String username = "";
+    private User user;
 
     private String messageToSend = "";
 
+    private String feed = "";
+
     public LoggedInState(LoggedInState copy) {
-        username = copy.username;
+        user = copy.user;
     }
 
     // Because of the previous copy constructor, the default constructor must be explicit.
     public LoggedInState() {}
 
-    public String getUsername() {
-        return username;
+    public User getUser() {
+        return user;
     }
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getMessageToSend() {
@@ -25,4 +29,14 @@ public class LoggedInState {
     public void setMessageToSend(String message) {
         this.messageToSend = message;
     }
+
+    public String getFeed() {
+        return feed;
+    }
+    public void setFeed(String feed) {
+        this.feed = feed;
+    }
+
+
+
 }

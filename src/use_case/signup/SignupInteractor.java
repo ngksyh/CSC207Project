@@ -4,9 +4,6 @@ import data_access.FileClearanceDataAccessObject;
 import entity.User;
 import entity.UserFactory;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
 public class SignupInteractor implements SignupInputBoundary {
     final SignupUserDataAccessInterface userDataAccessObject;
     final SignupOutputBoundary userPresenter;
@@ -30,7 +27,7 @@ public class SignupInteractor implements SignupInputBoundary {
     public void execute(SignupInputData signupInputData) {
         if (!signupInputData.getUsername().matches("[^\s,]+")){
             userPresenter.prepareFailView("Username must contain at least one character and must not contain any space or comma.");
-        } else if (userDataAccessObject.existsByName(signupInputData.getUsername())) {
+        } else if (userDataAccessObject.userExistsByName(signupInputData.getUsername())) {
             userPresenter.prepareFailView("User already exists.");
         } else if (!signupInputData.getPassword().equals(signupInputData.getRepeatPassword())) {
             userPresenter.prepareFailView("Passwords don't match.");

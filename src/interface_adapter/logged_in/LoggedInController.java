@@ -1,12 +1,17 @@
 package interface_adapter.logged_in;
 
+import use_case.getFeed.GetFeedInputBoundary;
+import use_case.getFeed.GetFeedInputData;
 import use_case.logout.LogoutInputBoundary;
 
 public class LoggedInController {
 
     final LogoutInputBoundary logoutUseCaseInteractor;
-    public LoggedInController(LogoutInputBoundary logoutUseCaseInteractor) {
+
+    final GetFeedInputBoundary getFeedUseCaseInteractor;
+    public LoggedInController(LogoutInputBoundary logoutUseCaseInteractor, GetFeedInputBoundary getFeedUseCaseInteractor) {
         this.logoutUseCaseInteractor = logoutUseCaseInteractor;
+        this.getFeedUseCaseInteractor = getFeedUseCaseInteractor;
     }
 
 
@@ -14,6 +19,10 @@ public class LoggedInController {
         logoutUseCaseInteractor.logOut();
     }
 
-    public void changeToCreateClearance(){ }
+    public void changeToCreateClearance(){ logoutUseCaseInteractor.changeToCreateClearance();}
+
+    public void displayFeed(GetFeedInputData getFeedInputData){getFeedUseCaseInteractor.execute(getFeedInputData);}
+
+
 
 }

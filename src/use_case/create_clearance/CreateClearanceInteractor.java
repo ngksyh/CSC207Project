@@ -24,10 +24,10 @@ public class CreateClearanceInteractor implements CreateClearanceInputBoundary {
     public void execute(CreateClearanceInputData createClearanceInputData) {
         String name = createClearanceInputData.getName();
         String level = createClearanceInputData.getLevel();
-        if (!channelDataAccessObject.clearanceExistsByName(name)) {
+        if (channelDataAccessObject.clearanceExistsByName(name)) {
             createClearancePresenter.prepareFailView(name + ": Is already used for an existing clearance.");
         }
-        else if (!isNumeric(level)){createClearancePresenter.prepareFailView(name + ": Is already used for an existing clearance.");}
+        else if (!isNumeric(level)){createClearancePresenter.prepareFailView(name + ": Level should be non-negative integers.");}
         else {
                 // Creates New Clearance w name
                 RSAKeyFactory rsaKeyFactory = new RSAKeyFactory();
