@@ -4,7 +4,7 @@ import app.LoggedInUseCasesFactory;
 import interface_adapter.logged_in.LoggedInController;
 import interface_adapter.logged_in.LoggedInViewModel;
 
-public class LoggedInViewAdmin extends LoggedInView{
+public class LoggedInViewAdmin extends LoggedInViewSupervisor{
 
     public LoggedInViewAdmin(LoggedInViewModel loggedInViewModel, LoggedInController loggedInController) {
         super(loggedInViewModel, loggedInController);

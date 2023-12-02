@@ -13,4 +13,7 @@ public class LogoutInteractor implements LogoutInputBoundary {
     @Override
     public void logOut() { logoutPresenter.prepareLoginView(); }
 
+    @Override
+    public void changeToCreateClearance(){logoutPresenter.prepareCreateClearanceView();}
+
 }

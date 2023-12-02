@@ -1,12 +1,13 @@
 package data_access;
 
 import entity.*;
+import use_case.create_clearance.CreateClearanceChannelDataAccessInterface;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class FileChannelDataAccessObject {
+public class FileChannelDataAccessObject implements CreateClearanceChannelDataAccessInterface {
 
     private final File csvFile;
 
@@ -93,9 +94,20 @@ public class FileChannelDataAccessObject {
         messageDataAccessObject.save(message);
     }
 
-    public void addClearance(Clearance clearance){
+    @Override
+    public boolean clearanceExistsByName(String identifier){
+        return clearanceDataAccessObject.existsByName(identifier);
+    }
+
+    @Override
+    public void save(Clearance clearance){
         channel.addClearance(clearance);
         clearanceDataAccessObject.save(clearance);
+    }
+
+    @Override
+    public Clearance get(String name){
+        return clearanceDataAccessObject.get(name);
     }
 
     public void addMember(User user){

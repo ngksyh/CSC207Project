@@ -6,13 +6,11 @@ import data_access.FileMessageDataAccessObject;
 import data_access.FileUserDataAccessObject;
 import entity.*;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.create_clearance.CreateClearanceViewModel;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupViewModel;
-import view.LoggedInView;
-import view.LoginView;
-import view.SignupView;
-import view.ViewManager;
+import view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,6 +36,8 @@ public class Main {
 
         LoggedInViewModel loggedInViewModelAdmin = new LoggedInViewModel("logged in admin");
         LoggedInViewModel loggedInViewModelSupervisor = new LoggedInViewModel("logged in supervisor");
+
+        CreateClearanceViewModel createClearanceViewModel = new CreateClearanceViewModel();
         //
         FileClearanceDataAccessObject clearanceDataAccessObject;
         try {
@@ -74,15 +74,19 @@ public class Main {
         views.add(signupView, signupView.viewName);
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, loggedInViewModelAdmin, loggedInViewModelSupervisor
-                ,userDataAccessObject, signupViewModel, channelDataAccessObject);
+                ,userDataAccessObject, signupViewModel, createClearanceViewModel, channelDataAccessObject);
         views.add(loginView, loginView.viewName);
 
-        LoggedInView loggedInView = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModel);
-        LoggedInView loggedInViewAdmin = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModelAdmin);
-        LoggedInView loggedInViewSupervisor = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModelSupervisor);
+        LoggedInView loggedInView = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, createClearanceViewModel);
+        LoggedInView loggedInViewAdmin = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModelAdmin, createClearanceViewModel);
+        LoggedInView loggedInViewSupervisor = LoggedInUseCasesFactory.create(viewManagerModel, loginViewModel, loggedInViewModelSupervisor, createClearanceViewModel);
         views.add(loggedInView, loggedInView.viewName);
         views.add(loggedInViewAdmin, loggedInViewAdmin.viewName);
         views.add(loggedInViewSupervisor, loggedInViewSupervisor.viewName);
+
+        CreateClearanceView createClearanceView = CreateClearanceUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel,
+                createClearanceViewModel, channelDataAccessObject, signupViewModel);
+        views.add(createClearanceView, createClearanceView.viewName);
 
         //
         viewManagerModel.setActiveView(loginView.viewName);

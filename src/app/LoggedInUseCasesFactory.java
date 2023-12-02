@@ -3,6 +3,7 @@ package app;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.create_clearance.CreateClearanceViewModel;
 import interface_adapter.logged_in.LoggedInController;
 import interface_adapter.logged_in.LoggedInPresenter;
 import interface_adapter.logged_in.LoggedInViewModel;
@@ -33,10 +34,11 @@ public class LoggedInUseCasesFactory {
     public static LoggedInView create(
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
-            LoggedInViewModel loggedInViewModel) {
+            LoggedInViewModel loggedInViewModel,
+            CreateClearanceViewModel createClearanceViewModel) {
 
         try {
-            LoggedInController loggedInController = createLoggedInUseCases(viewManagerModel, loginViewModel, loggedInViewModel);
+            LoggedInController loggedInController = createLoggedInUseCases(viewManagerModel, loginViewModel, loggedInViewModel, createClearanceViewModel);
             if (loggedInViewModel.getViewName().equals("logged in")){return new LoggedInView(loggedInViewModel, loggedInController);}
             else if (loggedInViewModel.getViewName().equals("logged in admin")){return new LoggedInViewAdmin(loggedInViewModel, loggedInController);}
             else{return new LoggedInViewSupervisor(loggedInViewModel, loggedInController);}
@@ -50,10 +52,11 @@ public class LoggedInUseCasesFactory {
     private static LoggedInController createLoggedInUseCases(
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
-            LoggedInViewModel loggedInViewModel) throws IOException {
+            LoggedInViewModel loggedInViewModel,
+            CreateClearanceViewModel createClearanceViewModel) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
-        LogoutOutputBoundary logoutOutputBoundary = new LoggedInPresenter(viewManagerModel, loggedInViewModel, loginViewModel);
+        LogoutOutputBoundary logoutOutputBoundary = new LoggedInPresenter(viewManagerModel, loggedInViewModel, loginViewModel, createClearanceViewModel);
 
         LogoutInputBoundary logoutInteractor = new LogoutInteractor(
                 logoutOutputBoundary);

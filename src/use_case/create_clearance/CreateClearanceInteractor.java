@@ -24,7 +24,7 @@ public class CreateClearanceInteractor implements CreateClearanceInputBoundary {
     public void execute(CreateClearanceInputData createClearanceInputData) {
         String name = createClearanceInputData.getName();
         String level = createClearanceInputData.getLevel();
-        if (!channelDataAccessObject.existsByName(name)) {
+        if (!channelDataAccessObject.clearanceExistsByName(name)) {
             createClearancePresenter.prepareFailView(name + ": Is already used for an existing clearance.");
         }
         else if (!isNumeric(level)){createClearancePresenter.prepareFailView(name + ": Is already used for an existing clearance.");}
@@ -35,6 +35,8 @@ public class CreateClearanceInteractor implements CreateClearanceInputBoundary {
                 ClearanceFactory clearanceFactory= new ClearanceFactory();
                 Clearance clearance = clearanceFactory.create(createClearanceInputData.getName(), Integer.valueOf(createClearanceInputData.getLevel()), key);
                 // Logic Above; requires implementation of class
+
+                channelDataAccessObject.save(clearance);
 
                 CreateClearanceOutputData createClearanceOutputData = new CreateClearanceOutputData(clearance.getName(), clearance.getLevel().toString(),false);
                 createClearancePresenter.prepareSuccessView(createClearanceOutputData);

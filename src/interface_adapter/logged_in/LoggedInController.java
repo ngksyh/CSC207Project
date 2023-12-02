@@ -14,4 +14,6 @@ public class LoggedInController {
         logoutUseCaseInteractor.logOut();
     }
 
+    public void changeToCreateClearance(){ }
+
 }
