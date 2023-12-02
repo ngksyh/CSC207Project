@@ -49,6 +49,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                     String isAdmin = String.valueOf(col[headers.get("isadmin")]);
                     String clearance = String.valueOf(col[headers.get("clearance")]);
 
+
                     User user = userFactory.create(username, password,
                             Boolean.getBoolean(isAdmin),
                             fileClearanceDataAccessObject.get(clearance));
@@ -87,7 +88,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
                 String line = String.format("%s,%s,%s,%s",
                         user.getName(), user.getPassword(),
                         user.getIsadmin().toString(),
-                        user.getClearance());
+                        user.getClearance().getName());
                 writer.write(line);
                 writer.newLine();
             }

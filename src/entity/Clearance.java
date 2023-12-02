@@ -15,10 +15,10 @@ public class Clearance {
      * @param name
      * @param level
      */
-    Clearance(String name, Integer level) {
+    public Clearance(String name, Integer level, Key key) {
         this.name = name;
         this.level = level;
-        this.key = new RSAKeyFactory().create();
+        this.key = key;
     }
 
 

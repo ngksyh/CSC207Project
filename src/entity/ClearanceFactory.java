@@ -10,8 +10,8 @@ public class ClearanceFactory {
          */
 
 
-        public Clearance create(String name, Integer level) {
-            return new Clearance(name, level);
+        public Clearance create(String name, Integer level, Key key) {
+            return new Clearance(name, level, key);
         }
 
 }

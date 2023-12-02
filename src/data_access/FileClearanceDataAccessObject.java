@@ -24,8 +24,8 @@ public class FileClearanceDataAccessObject {
 
         csvFile = new File(csvPath);
         headers.put("clrname", 0);
-        headers.put("publickey", 1);
-        headers.put("privatekey", 2);
+        headers.put("encryptkey", 1);
+        headers.put("decryptkey", 2);
         headers.put("level", 3);
 
         if (csvFile.length() == 0) {
@@ -36,33 +36,32 @@ public class FileClearanceDataAccessObject {
                 String header = reader.readLine();
 
                 // For later: clean this up by creating a new Exception subclass and handling it in the UI.
-                assert header.equals("clrname,publickey,privatekey");
+                assert header.equals("clrname,encryptkey,decryptkey");
 
                 String row;
                 while ((row = reader.readLine()) != null) {
                     String[] col = row.split(",");
                     String clrname = String.valueOf(col[headers.get("clrname")]);
-                    String publickey = String.valueOf(col[headers.get("publickey")]);
-                    String privatekey = String.valueOf(col[headers.get("privatekey")]);
+                    String encryptkey = String.valueOf(col[headers.get("encryptkey")]);
+                    String decryptkey = String.valueOf(col[headers.get("decryptkey")]);
+                    String level = String.valueOf(col[headers.get("level")]);
 
                     //generates clearance
-                    Key key = keyFactory.create();
+                    Key key = keyFactory.create(encryptkey, decryptkey);
 
 
-                    clearances.put(new Clearance(clrname, key));
+                    clearances.put(clrname, new Clearance(clrname, Integer.parseInt(level), key));
                 }
             }
         }
     }
 
 
-    @Override
     public void save(Clearance clearance) {
         clearances.put(clearance.getName(), clearance);
         this.save();
     }
 
-    @Override
     public Clearance get(String clrname) {
         return clearances.get(clrname);
     }
@@ -79,8 +78,8 @@ public class FileClearanceDataAccessObject {
             writer.newLine();
 
             for (Clearance clr : clearances.values()) {
-                String line = String.format("%s,%s,%s",
-                        "the clearance string format");
+                String line = String.format("%s,%s,%s,%s",
+                        clr.getName(),clr.getKey().getEncrypt(),clr.getKey().getDecrypt(), clr.getLevel().toString());
                 writer.write(line);
                 writer.newLine();
             }
@@ -95,12 +94,6 @@ public class FileClearanceDataAccessObject {
 
 
 
-    /**
-     * Return whether a user exists with username identifier.
-     * @param identifier the username to check.
-     * @return whether a user exists with username identifier
-     */
-    @Override
     public boolean existsByName(String identifier) {
         return clearances.containsKey(identifier);
     }
