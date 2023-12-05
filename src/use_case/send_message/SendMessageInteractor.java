@@ -14,23 +14,14 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class SendMessageInteractor implements SendMessageInputBoundary{
-    final LoginUserDataAccessInterface userDataAccessObject;
     final FileChannelDataAccessObject fileChannelDataAccessObject;
 
-    final FileChannelDataAccessObject channelDataAccessObject;
     final GetFeedOutputBoundary sendMessagePresenter;
 
-    final FileMessageDataAccessObject messageDataAccessObject;
 
-    public SendMessageInteractor(LoginUserDataAccessInterface userDataAccessObject,
-                                 FileChannelDataAccessObject channelDataAccessObject,
-                                 GetFeedOutputBoundary sendMessagePresenter,
-                                 FileMessageDataAccessObject messageDataAccessObject,
+    public SendMessageInteractor(GetFeedOutputBoundary sendMessagePresenter,
                                  FileChannelDataAccessObject fileChannelDataAccessObject) {
-        this.userDataAccessObject = userDataAccessObject;
-        this.channelDataAccessObject = channelDataAccessObject;
         this.sendMessagePresenter = sendMessagePresenter;
-        this.messageDataAccessObject = messageDataAccessObject;
         this.fileChannelDataAccessObject = fileChannelDataAccessObject;
     }
 
@@ -42,8 +33,8 @@ public class SendMessageInteractor implements SendMessageInputBoundary{
             return;
         } else {
             Message msg = new SimpleMessage(user, clearance, message);
-            messageDataAccessObject.save(msg);
             Channel channel = fileChannelDataAccessObject.getChannel();
+            fileChannelDataAccessObject.addMessage(msg);
 
             Encrypter encrypter = new Encrypter(channel.getMessages(), clearance, channel.getClearances());
 
@@ -54,6 +45,7 @@ public class SendMessageInteractor implements SendMessageInputBoundary{
                 for (Message m : messages) {
                     sb.append(m.getSentBy().getName()).append(" : ").append(m.getText()).append("\n");
                 }
+
                 String text = sb.toString();
                 GetFeedOutputData getfeedOutputData = new GetFeedOutputData(text);
                 sendMessagePresenter.displayFeed(getfeedOutputData);

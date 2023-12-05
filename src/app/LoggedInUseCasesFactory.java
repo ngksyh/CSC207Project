@@ -11,6 +11,7 @@ import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.send_message.SendMessageController;
 import interface_adapter.signup.SignupViewModel;
 import use_case.getFeed.GetFeedInputBoundary;
 import use_case.getFeed.GetFeedInteractor;
@@ -22,6 +23,8 @@ import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
+import use_case.send_message.SendMessageInputBoundary;
+import use_case.send_message.SendMessageInteractor;
 import view.LoggedInView;
 import view.LoggedInViewAdmin;
 import view.LoggedInViewSupervisor;
@@ -69,7 +72,11 @@ public class LoggedInUseCasesFactory {
 
         GetFeedInputBoundary getFeedInteractor = new GetFeedInteractor((GetFeedOutputBoundary) logoutOutputBoundary, fileChannelDataAccessObject);
 
+        SendMessageInputBoundary sendMessageInteractor = new SendMessageInteractor((GetFeedOutputBoundary) logoutOutputBoundary, fileChannelDataAccessObject);
 
-        return new LoggedInController(logoutInteractor, getFeedInteractor);
+        return new LoggedInController(logoutInteractor, getFeedInteractor, sendMessageInteractor);
     }
+
+
+
 }

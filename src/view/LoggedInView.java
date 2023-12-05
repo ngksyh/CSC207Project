@@ -4,6 +4,7 @@ import interface_adapter.logged_in.LoggedInController;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LoginState;
+import interface_adapter.send_message.SendMessageController;
 import use_case.getFeed.GetFeedInputData;
 
 import javax.swing.*;
@@ -85,7 +86,10 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(send)) { }
+                        if (evt.getSource().equals(send)) {
+                            LoggedInState currentState = loggedInViewModel.getState();
+                            loggedInController.sendMessage(currentState.getMessageToSend(), currentState.getUser());
+                        }
                     }
                 }
         );
