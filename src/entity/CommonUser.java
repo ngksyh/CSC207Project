@@ -47,6 +47,7 @@ public class CommonUser implements User{
         return isadmin;
     }
 
+    @Override
     public void setClearance(Clearance clearance){this.clearance = clearance;}
 
     @Override

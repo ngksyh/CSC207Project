@@ -20,7 +20,7 @@ public class AssignClearanceUseCaseFactory {
     /** Prevent instantiation. */
     private AssignClearanceUseCaseFactory() {}
 
-    public static AssignClearanceView create(
+    public static AssignClearanceView create(String vname,
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
             LoggedInViewModel loggedInViewModel,
@@ -31,7 +31,7 @@ public class AssignClearanceUseCaseFactory {
 
         try {
             AssignClearanceController assignClearanceController = createAssignClearanceUseCase(viewManagerModel, loginViewModel, loggedInViewModel, assignClearanceViewModel, clearanceDataAccessInterface, userDataAccessInterface, signupViewModel);
-            return new AssignClearanceView(assignClearanceViewModel, assignClearanceController, userDataAccessInterface, clearanceDataAccessInterface);
+            return new AssignClearanceView(vname, assignClearanceViewModel, assignClearanceController, userDataAccessInterface, clearanceDataAccessInterface);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }

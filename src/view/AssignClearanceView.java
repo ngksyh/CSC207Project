@@ -17,7 +17,7 @@ import java.beans.PropertyChangeListener;
 
 public class AssignClearanceView extends JPanel implements ActionListener, PropertyChangeListener {
 
-    public final String viewName = "assign new clearance";
+    public final String viewName;
     private final AssignClearanceViewModel assignClearanceViewModel;
 
     JComboBox<String> userInputField = new JComboBox<>();
@@ -26,9 +26,11 @@ public class AssignClearanceView extends JPanel implements ActionListener, Prope
     final JButton cancel;
     private final AssignClearanceController assignClearanceController;
 
-    public AssignClearanceView(AssignClearanceViewModel assignClearanceViewModel, AssignClearanceController controller,
+    public AssignClearanceView(String vName, AssignClearanceViewModel assignClearanceViewModel, AssignClearanceController controller,
                                AssignClearanceUserDataAccessInterface userDataAccessInterface,
                                AssignClearanceClearanceDataAccessInterface clearanceDataAccessInterface) {
+
+        this.viewName = vName;
 
         this.assignClearanceController = controller;
         this.assignClearanceViewModel = assignClearanceViewModel;
@@ -59,6 +61,8 @@ public class AssignClearanceView extends JPanel implements ActionListener, Prope
                         if (evt.getSource().equals(assign)) {
                             AssignClearanceState currentState = assignClearanceViewModel.getState();
 
+                            System.out.println(currentState.getUser());
+                            System.out.println(currentState.getClearance());
                             assignClearanceController.execute(
                                     currentState.getUser(),
                                     currentState.getClearance()

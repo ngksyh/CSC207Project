@@ -13,6 +13,8 @@ public class LoggedInViewSupervisor extends LoggedInView{
 
     JButton addClr;
 
+    JButton assignClr;
+
     public LoggedInViewSupervisor(LoggedInViewModel loggedInViewModel, LoggedInController loggedInController) {
         super(loggedInViewModel, loggedInController);
 
@@ -30,6 +32,20 @@ public class LoggedInViewSupervisor extends LoggedInView{
                     }
                 }
 
+        );
+
+        assignClr = new JButton("Assign clearance");
+        buttons.add(assignClr);
+
+        assignClr.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(assignClr)) {
+                            loggedInController.changeToAssignClearance();
+                        }
+                    }
+                }
         );
 
 
