@@ -23,4 +23,8 @@ public class CreateClearanceController {
     public void changeToSignUp(){
         createclearanceUseCaseInteractor.changeToSignUp();
     }
+
+    public void changeToLoggedIn(){
+        createclearanceUseCaseInteractor.changeToLoggedIn();
+    }
 }

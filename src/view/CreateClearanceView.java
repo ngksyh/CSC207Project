@@ -64,7 +64,13 @@ public class CreateClearanceView extends JPanel implements ActionListener, Prope
                 }
         );
 
-        cancel.addActionListener(this);
+        cancel.addActionListener( new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if (evt.getSource().equals(cancel)) {
+                    createClearanceController.changeToLoggedIn(); // implement
+                }
+            }
+        });
 
         clearanceInputField.addKeyListener(new KeyListener() {
             @Override

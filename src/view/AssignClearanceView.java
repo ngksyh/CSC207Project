@@ -72,7 +72,13 @@ public class AssignClearanceView extends JPanel implements ActionListener, Prope
                 }
         );
 
-        cancel.addActionListener(this);
+        cancel.addActionListener( new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if (evt.getSource().equals(cancel)) {
+                    assignClearanceController.changeToLoggedIn(); // implement
+                }
+            }
+        });
 
         clearanceInputField.addActionListener(new ActionListener() {
             @Override

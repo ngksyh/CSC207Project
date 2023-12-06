@@ -6,4 +6,6 @@ public interface CreateClearanceInputBoundary {
     void execute(CreateClearanceInputData createClearanceInputData);
 
     void changeToSignUp();
+
+    void changeToLoggedIn();
 }

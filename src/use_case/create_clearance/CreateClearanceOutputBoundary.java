@@ -6,4 +6,6 @@ public interface CreateClearanceOutputBoundary {
     void prepareFailView(String error);
 
     void prepareSignupView();
+
+    void prepareLoggedInView();
 }

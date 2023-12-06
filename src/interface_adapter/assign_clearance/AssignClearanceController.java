@@ -21,4 +21,8 @@ public class AssignClearanceController {
     public void changeToSignUp(){
         assignClearanceUseCaseInteractor.changeToSignUp();
     }
+
+    public void changeToLoggedIn(){
+        assignClearanceUseCaseInteractor.changeToLoggedIn();
+    }
 }
