@@ -4,11 +4,12 @@ import entity.Clearance;
 import entity.Key;
 import entity.KeyFactory;
 import entity.User;
+import use_case.assign_clearance.AssignClearanceClearanceDataAccessInterface;
 
 import java.io.*;
 import java.util.*;
 
-public class FileClearanceDataAccessObject {
+public class FileClearanceDataAccessObject implements AssignClearanceClearanceDataAccessInterface {
 
     private final File csvFile;
 

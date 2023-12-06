@@ -3,13 +3,14 @@ package data_access;
 import entity.Clearance;
 import entity.User;
 import entity.UserFactory;
+import use_case.assign_clearance.AssignClearanceUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 import java.io.*;
 import java.util.*;
 
-public class FileUserDataAccessObject implements LoginUserDataAccessInterface{
+public class FileUserDataAccessObject implements LoginUserDataAccessInterface, AssignClearanceUserDataAccessInterface {
 
     private final File csvFile;
 
@@ -119,4 +120,19 @@ public class FileUserDataAccessObject implements LoginUserDataAccessInterface{
         return accounts.containsKey(identifier);
     }
 
+    @Override
+    public Map<String, User> getUsers() {
+        return this.accounts;
+    }
+
+    @Override
+    public boolean userHasClearanceByName(String user, String clearance) {
+        return Objects.equals(get(user).getClearance().getName(), clearance);
+    }
+
+    @Override
+    public void update(String userName, Clearance clearance) {
+       accounts.get(userName).setClearance(clearance);
+       save(); // Not the most efficient, but no point in writing another method for this.
+    }
 }

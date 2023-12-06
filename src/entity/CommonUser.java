@@ -47,5 +47,7 @@ public class CommonUser implements User{
         return isadmin;
     }
 
+    public void setClearance(Clearance clearance){this.clearance = clearance;}
+
 
 }
