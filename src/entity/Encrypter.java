@@ -27,10 +27,10 @@ public class Encrypter {
 
         ArrayList<Message> encryptedMessages = new ArrayList<Message>();
         for (Message message: messages) {
-            if (userClearance.getLevel() <= message.getClearance().getLevel()) {
+            if (userClearance.getLevel() < message.getClearance().getLevel()) {
                 requestBody = "\n" +
                         "{\"input\":\"" + message + "\",\"recipe\":[{ \"op\": \"PGP Encrypt\",\"args\": [\"" + message.getClearance().getKey().getEncrypt() + "\"] }]}";
-                encryptedMessages.add(new EncryptedMessage(message.getSentBy(), message.getClearance(), makeApiCall(apiUrl, requestBody).substring(111).split("-----END PGP MESSAGE-----")[0]));
+                encryptedMessages.add(new EncryptedMessage(message.getSentBy(), message.getClearance(), makeApiCall(apiUrl, requestBody).substring(10).split("-----END PGP MESSAGE-----")[0]));
             } else {
                 encryptedMessages.add(message);
             }
