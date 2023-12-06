@@ -1,12 +1,14 @@
 package data_access;
 
 import entity.*;
+import use_case.assign_supervisor.AssignSupervisorChannelDataAccessInterface;
 import use_case.create_clearance.CreateClearanceChannelDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 import java.io.*;
+import java.util.Map;
 
-public class FileChannelDataAccessObject implements SignupUserDataAccessInterface, CreateClearanceChannelDataAccessInterface {
+public class FileChannelDataAccessObject implements SignupUserDataAccessInterface, CreateClearanceChannelDataAccessInterface, AssignSupervisorChannelDataAccessInterface {
 
     private final File csvFile;
 
@@ -134,6 +136,12 @@ public class FileChannelDataAccessObject implements SignupUserDataAccessInterfac
         save();
     }
 
+    @Override
+    public void addSupervisor(String username) {
+        User user = userDataAccessObject.get(username);
+        addSupervisor(user);
+    }
+
     public void addSupervisor(User user){
         channel.addSupervisor(user);
         save();
@@ -160,4 +168,8 @@ public class FileChannelDataAccessObject implements SignupUserDataAccessInterfac
         }
     }
 
+    @Override
+    public Map<String, User> getSupervisors() {
+        return channel.getSupervisors();
+    }
 }

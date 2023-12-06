@@ -10,7 +10,7 @@ public class CommonUser implements User{
     private final String name;
     private String password;
 
-    private final Boolean isadmin;
+    private Boolean isadmin;
 
     private Clearance clearance;
 
@@ -48,6 +48,11 @@ public class CommonUser implements User{
     }
 
     public void setClearance(Clearance clearance){this.clearance = clearance;}
+
+    @Override
+    public void setIsAdmin(Boolean value) {
+        this.isadmin = value;
+    }
 
 
 }

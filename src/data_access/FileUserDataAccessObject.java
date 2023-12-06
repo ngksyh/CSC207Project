@@ -4,13 +4,15 @@ import entity.Clearance;
 import entity.User;
 import entity.UserFactory;
 import use_case.assign_clearance.AssignClearanceUserDataAccessInterface;
+import use_case.assign_supervisor.AssignSupervisorUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 import java.io.*;
 import java.util.*;
 
-public class FileUserDataAccessObject implements LoginUserDataAccessInterface, AssignClearanceUserDataAccessInterface {
+public class FileUserDataAccessObject implements LoginUserDataAccessInterface, AssignClearanceUserDataAccessInterface,
+        AssignSupervisorUserDataAccessInterface {
 
     private final File csvFile;
 
@@ -123,6 +125,12 @@ public class FileUserDataAccessObject implements LoginUserDataAccessInterface, A
     @Override
     public Map<String, User> getUsers() {
         return this.accounts;
+    }
+
+    @Override
+    public void updateIsAdmin(String userName) {
+        this.accounts.get(userName).setIsAdmin(true);
+        save();
     }
 
     @Override
