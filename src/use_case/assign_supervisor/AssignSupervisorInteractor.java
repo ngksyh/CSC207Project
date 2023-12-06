@@ -20,7 +20,7 @@ public class AssignSupervisorInteractor implements AssignSupervisorInputBoundary
         String user = assignSupervisorInputData.getUser();
         // No error can occur.
         channelDataAccessObject.addSupervisor(user);
-        userDataAccessObject.updateIsAdmin(user);
+        /*userDataAccessObject.updateIsAdmin(user);*/
         assignSupervisorPresenter.prepareSuccessView();
     }
 
