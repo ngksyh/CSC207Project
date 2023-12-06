@@ -15,7 +15,6 @@ public class LoginPresenter implements LoginOutputBoundary {
     private final LoggedInViewModel loggedInViewModel;
     private final LoggedInViewModel loggedInViewModelAdmin;
     private final LoggedInViewModel loggedInViewModelSupervisor;
-    private final CreateClearanceViewModel createClearanceViewModel;
 
 
     private final SignupViewModel signupViewModel;
@@ -26,15 +25,13 @@ public class LoginPresenter implements LoginOutputBoundary {
                           LoggedInViewModel loggedInViewModelAdmin,
                           LoggedInViewModel loggedInViewModelSupervisor,
                           LoginViewModel loginViewModel,
-                          SignupViewModel signupViewModel,
-                          CreateClearanceViewModel createClearanceViewModel) {
+                          SignupViewModel signupViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.loggedInViewModel = loggedInViewModel;
         this.loggedInViewModelAdmin = loggedInViewModelAdmin;
         this.loggedInViewModelSupervisor = loggedInViewModelSupervisor;
         this.loginViewModel = loginViewModel;
         this.signupViewModel = signupViewModel;
-        this.createClearanceViewModel = createClearanceViewModel;
     }
 
     @Override

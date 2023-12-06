@@ -28,6 +28,10 @@ public class LoggedInController {
 
     public void changeToCreateClearance(){ logoutUseCaseInteractor.changeToCreateClearance();}
 
+    public void changeToAssignClearance(){ logoutUseCaseInteractor.changeToAssignClearance();}
+
+    public void changeToAssignSupervisor(){ logoutUseCaseInteractor.changeToAssignSupervisor();}
+
     public void displayFeed(GetFeedInputData getFeedInputData){getFeedUseCaseInteractor.execute(getFeedInputData);}
 
     public void sendMessage(String message, User user) {

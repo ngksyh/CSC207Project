@@ -57,10 +57,10 @@ public class FileUserDataAccessObject implements LoginUserDataAccessInterface, A
                     if (isAdmin.equals("true")){isadmin = true;}
 
 
+
                     User user = userFactory.create(username, password,
                             isadmin,
                             fileClearanceDataAccessObject.get(clearance));
-
 
                     accounts.put(username, user);
                 }
@@ -119,6 +119,7 @@ public class FileUserDataAccessObject implements LoginUserDataAccessInterface, A
      */
     @Override
     public boolean existsByName(String identifier) {
+
         return accounts.containsKey(identifier);
     }
 

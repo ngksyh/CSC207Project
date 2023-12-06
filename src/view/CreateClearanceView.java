@@ -15,7 +15,7 @@ import java.beans.PropertyChangeListener;
 
 public class CreateClearanceView extends JPanel implements ActionListener, PropertyChangeListener {
 
-    public final String viewName = "create new clearance";
+    public final String viewName;
     private final CreateClearanceViewModel createClearanceViewModel;
 
     final JTextField clearanceInputField = new JTextField(15);
@@ -26,7 +26,10 @@ public class CreateClearanceView extends JPanel implements ActionListener, Prope
     final JButton cancel;
     private final CreateClearanceController createClearanceController;
 
-    public CreateClearanceView(CreateClearanceViewModel createClearanceViewModel, CreateClearanceController controller) {
+
+    public CreateClearanceView(String vName, CreateClearanceViewModel createClearanceViewModel, CreateClearanceController controller) {
+
+        this.viewName = vName;
 
         this.createClearanceController = controller;
         this.createClearanceViewModel = createClearanceViewModel;

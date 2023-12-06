@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.Set;
 
 public class AssignSupervisorView extends JPanel implements ActionListener, PropertyChangeListener {
@@ -36,13 +37,16 @@ public class AssignSupervisorView extends JPanel implements ActionListener, Prop
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Loads data
-        Set<String> usernames = userDataAccessInterface.getUsers().keySet();
-        Set<String> supervisors = channelDataAccessInterface.getSupervisors().keySet();
-        usernames.removeAll(supervisors);
+        Set<String> u = userDataAccessInterface.getUsers().keySet();
+        Set<String> s = channelDataAccessInterface.getSupervisors().keySet();
+
+        ArrayList<String> usernames = new ArrayList<>(u);
+        usernames.removeAll(s);
+
         // no usernames can be added
-        if (usernames.isEmpty()){
+        /*if (usernames.isEmpty()){
             assignSupervisorController.changeToLoggedIn();
-        }
+        }*/
 
         userInputField = new JComboBox<>(usernames.toArray(new String[0]));
         LabelBoxPanel userNameInfo = new LabelBoxPanel(
