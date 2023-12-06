@@ -15,6 +15,10 @@ public interface User {
 
     Boolean getIsadmin();
 
+    void setIsAdmin(Boolean b);
+
+    void setClearance(Clearance c);
+
 
 
 
