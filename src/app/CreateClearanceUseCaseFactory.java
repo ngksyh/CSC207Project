@@ -34,11 +34,7 @@ public class CreateClearanceUseCaseFactory {
         try {
             CreateClearanceController createClearanceController = createCreateClearanceUseCase(viewManagerModel, loginViewModel, loggedInViewModel, createClearanceViewModel, channelDataAccessObject, signupViewModel);
             return new CreateClearanceView(vname, createClearanceViewModel, createClearanceController);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Could not open user data file.");
-        }
-
-        return null;
+        } catch (IOException e) {JOptionPane.showMessageDialog(null, "Could not open user data file."); return null;}
     }
 
     private static CreateClearanceController createCreateClearanceUseCase(

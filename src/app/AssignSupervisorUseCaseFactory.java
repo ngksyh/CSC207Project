@@ -30,11 +30,7 @@ public class AssignSupervisorUseCaseFactory {
         try {
             AssignSupervisorController assignSupervisorController = createAssignSupervisorUseCase(viewManagerModel, loginViewModel, loggedInViewModel, assignSupervisorViewModel, channelDataAccessInterface, userDataAccessInterface, signupViewModel);
             return new AssignSupervisorView(assignSupervisorViewModel, assignSupervisorController, userDataAccessInterface, channelDataAccessInterface);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Could not open user data file.");
-        }
-
-        return null;
+        } catch (IOException e) {JOptionPane.showMessageDialog(null, "Could not open user data file."); return null;}
     }
 
     private static AssignSupervisorController createAssignSupervisorUseCase(

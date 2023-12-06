@@ -46,31 +46,23 @@ public class Main {
         FileClearanceDataAccessObject clearanceDataAccessObject;
         try {
             clearanceDataAccessObject = new FileClearanceDataAccessObject("./channels/clearances.csv", new RSAKeyFactory());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        } catch (IOException e) {throw new RuntimeException(e); }
 
         FileUserDataAccessObject userDataAccessObject;
         try {
             userDataAccessObject = new FileUserDataAccessObject("./users.csv", new CommonUserFactory(), clearanceDataAccessObject);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        } catch (IOException e) {throw new RuntimeException(e);}
 
         FileMessageDataAccessObject messageDataAccessObject;
         try {
             messageDataAccessObject = new FileMessageDataAccessObject("./channels/messages.csv", new SimpleMessageFactory(), clearanceDataAccessObject,userDataAccessObject);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        } catch (IOException e) {throw new RuntimeException(e);}
 
         FileChannelDataAccessObject channelDataAccessObject;
         try {
             channelDataAccessObject = new FileChannelDataAccessObject("./channels/channel.csv", new BasicChannelFactory(),clearanceDataAccessObject,userDataAccessObject,
                     messageDataAccessObject, new CommonUserFactory(), new ClearanceFactory(), new SimpleMessageFactory());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        } catch (IOException e) {throw new RuntimeException(e);}
 
         //Add views from here
 

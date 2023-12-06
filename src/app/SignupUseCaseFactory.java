@@ -29,11 +29,7 @@ public class SignupUseCaseFactory {
         try {
             SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject, clearanceDataAccessObject);
             return new SignupView(signupController, signupViewModel);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Could not open user data file.");
-        }
-
-        return null;
+        } catch (IOException e) {JOptionPane.showMessageDialog(null, "Could not open user data file."); return null;}
     }
 
     private static SignupController createUserSignupUseCase(ViewManagerModel viewManagerModel, SignupViewModel signupViewModel, LoginViewModel loginViewModel, SignupUserDataAccessInterface userDataAccessObject,

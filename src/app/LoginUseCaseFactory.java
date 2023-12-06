@@ -39,11 +39,7 @@ public class LoginUseCaseFactory {
                     ,userDataAccessObject, signupViewModel
                     ,fileChannelDataAccessObject);
             return new LoginView(loginViewModel, loginController);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Could not open user data file.");
-        }
-
-        return null;
+        } catch (IOException e) {JOptionPane.showMessageDialog(null, "Could not open user data file."); return null;}
     }
 
     private static LoginController createLoginUseCase(

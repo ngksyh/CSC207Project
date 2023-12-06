@@ -32,11 +32,7 @@ public class AssignClearanceUseCaseFactory {
         try {
             AssignClearanceController assignClearanceController = createAssignClearanceUseCase(viewManagerModel, loginViewModel, loggedInViewModel, assignClearanceViewModel, clearanceDataAccessInterface, userDataAccessInterface, signupViewModel);
             return new AssignClearanceView(vname, assignClearanceViewModel, assignClearanceController, userDataAccessInterface, clearanceDataAccessInterface);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Could not open user data file.");
-        }
-
-        return null;
+        } catch (IOException e) { JOptionPane.showMessageDialog(null, "Could not open user data file."); return null;}
     }
 
     private static AssignClearanceController createAssignClearanceUseCase(

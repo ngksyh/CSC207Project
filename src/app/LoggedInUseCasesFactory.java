@@ -54,11 +54,7 @@ public class LoggedInUseCasesFactory {
             if (loggedInViewModel.getViewName().equals("logged in")){return new LoggedInView(loggedInViewModel, loggedInController);}
             else if (loggedInViewModel.getViewName().equals("logged in admin")){return new LoggedInViewAdmin(loggedInViewModel, loggedInController);}
             else{return new LoggedInViewSupervisor(loggedInViewModel, loggedInController);}
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Could not open user data file.");
-        }
-
-        return null;
+        } catch (IOException e) {JOptionPane.showMessageDialog(null, "Could not open user data file."); return null;}
     }
 
     private static LoggedInController createLoggedInUseCases(
