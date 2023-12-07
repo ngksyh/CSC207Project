@@ -30,4 +30,9 @@ public class AssignClearanceInteractor implements AssignClearanceInputBoundary {
     public void changeToSignUp() {
         assignClearancePresenter.prepareSignupView();
     }
+
+    @Override
+    public void changeToLoggedIn() {
+        assignClearancePresenter.prepareLoggedInView();
+    }
 }

@@ -47,4 +47,9 @@ public class CreateClearanceInteractor implements CreateClearanceInputBoundary {
     public void changeToSignUp() {
         createClearancePresenter.prepareSignupView();
     }
+
+    @Override
+    public void changeToLoggedIn() {
+        createClearancePresenter.prepareLoggedInView();
+    }
 }

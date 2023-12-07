@@ -4,4 +4,6 @@ public interface AssignClearanceInputBoundary {
     void execute(AssignClearanceInputData assignClearanceInputData);
 
     void changeToSignUp();
+
+    void changeToLoggedIn();
 }

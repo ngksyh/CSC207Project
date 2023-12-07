@@ -50,4 +50,12 @@ public class AssignClearancePresenter implements AssignClearanceOutputBoundary {
         viewManagerModel.setActiveView(signupViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
+
+    @Override
+    public void prepareLoggedInView() {
+        loggedInViewModel.firePropertyChanged();
+
+        viewManagerModel.setActiveView(loggedInViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
 }
