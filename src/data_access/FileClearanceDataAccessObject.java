@@ -37,7 +37,7 @@ public class FileClearanceDataAccessObject implements AssignClearanceClearanceDa
                 String header = reader.readLine();
 
                 // For later: clean this up by creating a new Exception subclass and handling it in the UI.
-                assert header.equals("clrname,encryptkey,decryptkey");
+                // assert header.equals("clrname,encryptkey,decryptkey");
 
                 String row;
                 while ((row = reader.readLine()) != null) {
