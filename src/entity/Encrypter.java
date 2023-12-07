@@ -30,7 +30,7 @@ public class Encrypter {
             if (userClearance.getLevel() < message.getClearance().getLevel()) {
                 requestBody = "\n" +
                         "{\"input\":\"" + message + "\",\"recipe\":[{ \"op\": \"PGP Encrypt\",\"args\": [\"" + message.getClearance().getKey().getEncrypt() + "\"] }]}";
-                encryptedMessages.add(new EncryptedMessage(message.getSentBy(), message.getClearance(), makeApiCall(apiUrl, requestBody).substring(10).split("-----END PGP MESSAGE-----")[0]));
+                encryptedMessages.add(new EncryptedMessage(message.getSentBy(), message.getClearance(), makeApiCall(apiUrl, requestBody).substring(120).split("-----END PGP MESSAGE-----")[0].substring(0, 40)));
             } else {
                 encryptedMessages.add(message);
             }
