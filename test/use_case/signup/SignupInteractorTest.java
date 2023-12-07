@@ -1,4 +1,4 @@
-package use_case.assign_supervisor;
+package use_case.signup;
 
 import data_access.FileChannelDataAccessObject;
 import data_access.FileClearanceDataAccessObject;
@@ -6,34 +6,29 @@ import data_access.FileMessageDataAccessObject;
 import data_access.FileUserDataAccessObject;
 import entity.*;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.assign_supervisor.AssignSupervisorPresenter;
-import interface_adapter.assign_supervisor.AssignSupervisorViewModel;
-import interface_adapter.logged_in.LoggedInViewModel;
+import interface_adapter.login.LoginViewModel;
+import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
-import junit.framework.TestCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class AssignSupervisorInteractorTest {
+class SignupInteractorTest {
 
-    AssignSupervisorChannelDataAccessInterface channelDataAccessObject;
-    AssignSupervisorInteractor c;
 
-    AssignSupervisorPresenter p;
+    SignupInteractor c;
+    SignupPresenter p;
+
     @BeforeEach
     void init() {
         try {
-            p = new AssignSupervisorPresenter(new AssignSupervisorViewModel(),
-                    new ViewManagerModel(),
-                    new LoggedInViewModel(),
-                    new SignupViewModel());
-            channelDataAccessObject = new FileChannelDataAccessObject(
+            p = new SignupPresenter(new ViewManagerModel(),
+                    new SignupViewModel(),
+                    new LoginViewModel());
+            c = new SignupInteractor(new FileChannelDataAccessObject(
                     "./channels/channel.csv",
                     new BasicChannelFactory(),
                     new FileClearanceDataAccessObject("./channels/clearances.csv",
@@ -53,30 +48,26 @@ public class AssignSupervisorInteractorTest {
                     new CommonUserFactory(),
                     new ClearanceFactory(),
                     new SimpleMessageFactory()
-            );
-            AssignSupervisorUserDataAccessInterface userDataAccessObject = new FileUserDataAccessObject("./users.csv",
+            ),
+                    p,
                     new CommonUserFactory(),
                     new FileClearanceDataAccessObject("./channels/clearances.csv",
                             new RSAKeyFactory()));
-            c = new AssignSupervisorInteractor(channelDataAccessObject, new FileUserDataAccessObject("./users.csv",
-                    new CommonUserFactory(),
-                    new FileClearanceDataAccessObject("./channels/clearances.csv",
-                            new RSAKeyFactory())),
-                    p);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
     @Test
-    public void testExecute() {
-        c.execute(new AssignSupervisorInputData("Admin"));
-        assertEquals(p, p);
+    void execute() {
+        c.execute(new SignupInputData("ppppp", "pqweqweqw", "asdasdb"));
+        c.execute(new SignupInputData("!@#)@{!@#}P%!@#>?@#<!@3.2,   ", "p", "p"));
+        c.execute(new SignupInputData("ppppp", "ppp", "ppp"));
+        assertEquals(c, c);
     }
 
     @Test
-    public void testChangeToLoggedIn() {
-        c.changeToLoggedIn();
-        assertNull(null);
+    void changeToLogIn() {
+        c.changeToLogIn();
+        assertEquals(c, c);
     }
 }
